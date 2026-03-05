@@ -28,11 +28,9 @@
   </div>
   <div class="row mt-4 py-3 fixed-bottom">
     <div class="col-12">
-      @hasHook('main-footer')
       <div class="d-inline gap-2">
         @hook('main-footer')
       </div>
-      @endHasHook
     </div>
   </div>
 </div>
