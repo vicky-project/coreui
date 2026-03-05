@@ -1,5 +1,6 @@
 <?php
 
 return [
-	"name" => "CoreUI",
+  "name" => "CoreUI",
+  "logo_url" => env("LOGO_URL", "/homeserver.png"),
 ];
