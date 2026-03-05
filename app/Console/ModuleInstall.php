@@ -113,7 +113,7 @@ class ModuleInstall extends Command
     ) {
       if (
         !$this->components->confirm(
-          "The [$welcomePath] view already exists. Do you want to replace it?"
+          "The [$welcomePath] view already exists. Do you want to replace it?", true
         )
       ) {
         return;
