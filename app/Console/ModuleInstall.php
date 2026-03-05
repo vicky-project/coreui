@@ -120,7 +120,7 @@ class ModuleInstall extends Command
       }
     }
 
-    copy(module_path("Core", "stubs/{$stub}"), $view);
+    copy(module_path("CoreUI", "stubs/{$stub}"), $view);
   }
 
   /**
