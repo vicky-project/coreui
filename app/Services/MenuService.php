@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class MenuService
 {
-  const CACHE_KEY = "module_menus_collection_".env('APP_ENV', 'production');
+  const CACHE_KEY = "module_menus_collections";
   const CACHE_TTL = 86400; // 24 jam
 
   /**
