@@ -30,5 +30,10 @@
     "psr-4": {
       "Modules\\CoreUI\\Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "setup": [
+      "@php artisan app:install"
+    ]
   }
 }

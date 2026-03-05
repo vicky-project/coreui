@@ -47,7 +47,7 @@ class CoreUIServiceProvider extends ServiceProvider
 	 */
 	protected function registerCommands(): void
 	{
-		// $this->commands([]);
+		$this->commands([\Modules\CoreUI\Console\ModuleInstall::class]);
 	}
 
 	/**
