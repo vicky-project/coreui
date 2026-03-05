@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container">
-    <a class="navbar-brand" href="{{ route('dashboard') }}">
+    <a class="navbar-brand" href="{{ config('app.url') }}">
       <i class="bi bi-grid"></i> {{ config('app.name') }}
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUser" aria-controls="navbarUser">
@@ -18,6 +18,7 @@
             <i class="bi bi-bell"></i> Notifications
           </a>
         </li>
+        @hook('navbar')
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
