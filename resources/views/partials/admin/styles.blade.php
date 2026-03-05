@@ -11,15 +11,11 @@
     width: 260px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    transition: all 0.3s ease;
+    transition: all 0.3s;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     z-index: 1000;
-    }
-    .sidebar.collapsed {
-    width: 70px;
     }
     .sidebar .sidebar-header {
     padding: 20px 15px;
@@ -30,16 +26,6 @@
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
-    white-space: nowrap;
-    }
-    .sidebar.collapsed .sidebar-header h3 {
-    display: none;
-    }
-    .sidebar .nav {
-    padding: 15px 0;
-    }
-    .sidebar .nav-item {
-    width: 100%;
     }
     .sidebar .nav-link {
     color: rgba(255,255,255,0.85);
@@ -47,40 +33,45 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: all 0.2s;
+    transition: 0.2s;
     border-left: 3px solid transparent;
     white-space: nowrap;
     }
-    .sidebar .nav-link:hover {
-    background: rgba(255,255,255,0.1);
-    color: white;
-    border-left-color: white;
-    }
+    .sidebar .nav-link:hover,
     .sidebar .nav-link.active {
     background: rgba(255,255,255,0.2);
     color: white;
     border-left-color: white;
     }
     .sidebar .nav-link i {
-    font-size: 1.3rem;
     min-width: 30px;
+    font-size: 1.2rem;
     text-align: center;
     }
+    .sidebar .nav-header {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px 20px 5px;
+    }
+    .sidebar-divider {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin: 10px 0;
+    }
+    .sidebar.collapsed {
+    width: 70px;
+    }
+    .sidebar.collapsed .sidebar-header h3,
     .sidebar.collapsed .nav-link span {
     display: none;
     }
-    .sidebar .dropdown-menu {
-    background: #5a67d8;
-    border: none;
-    border-radius: 0;
-    margin-left: 50px;
+    /* Telegram adaptation */
+    body.telegram-app .sidebar {
+    background: var(--tg-theme-secondary-bg-color, #667eea);
     }
-    .sidebar .dropdown-item {
-    color: white;
-    padding: 8px 20px;
-    }
-    .sidebar .dropdown-item:hover {
-    background: rgba(255,255,255,0.2);
+    body.telegram-app .sidebar .nav-link {
+    color: var(--tg-theme-text-color, white);
     }
     .content {
     flex: 1;
@@ -155,10 +146,6 @@
     /* Telegram Mini App adaptation */
     body.telegram-app {
     background: var(--tg-theme-bg-color, #f4f6f9);
-    }
-    body.telegram-app .sidebar {
-    background: var(--tg-theme-secondary-bg-color, #667eea);
-    color: var(--tg-theme-text-color, #ffffff);
     }
     body.telegram-app .navbar-top {
     background: var(--tg-theme-bg-color, #ffffff);

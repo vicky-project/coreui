@@ -18,7 +18,7 @@
 <body class="{{ session('is_telegram_app') ? 'telegram-app' : '' }}">
   <div class="wrapper">
     <!-- Sidebar -->
-    @include('coreui::partials.admin.sidebar')
+    @sidebarMenu()
 
     <!-- Main Content -->
     <div class="content" id="content">
