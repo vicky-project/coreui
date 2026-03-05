@@ -12,7 +12,7 @@ class ModuleInstall extends Command
   /**
   * The name and signature of the console command.
   */
-  protected $signature = "app:install {module?* : The module name(s) to install. If none provided, all modules will be installed.}";
+  protected $signature = "app:install {module?* : The module name(s) to install. If none provided, all modules will be installed.} {--force : Overwriting existing views by default.}";
 
   /**
   * The console command description.
