@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    protected string $name = 'Dashboard';
+    protected string $name = 'CoreUI';
 
     /**
      * Called before routes are registered.
