@@ -32,6 +32,9 @@
     }
   },
   "scripts": {
+    "post-install-cmd": [
+      "@php artisan app:install"
+    ],
     "post-update-cmd": [
       "@php artisan app:install"
     ]
