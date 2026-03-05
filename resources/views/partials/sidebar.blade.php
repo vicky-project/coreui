@@ -5,12 +5,12 @@ $menuService = app(\Modules\CoreUI\Services\MenuService::class);
 $currentUser = auth()->user();
 @endphp
 
-@if(!empty($menus))
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <h3>{{ config('app.name') }}</h3>
   </div>
 
+  @if(!empty($menus))
   <ul class="nav flex-column">
     @foreach($menus as $groupName => $groupMenus)
     {{-- Header grup jika bukan grup default --}}
@@ -81,9 +81,9 @@ $currentUser = auth()->user();
     @endforeach
     @endforeach
   </ul>
+  @else
+  <div class="p-3 text-muted">
+    No menu items available.
+  </div>
 </nav>
-@else
-<div class="p-3 text-muted">
-  No menu items available.
-</div>
 @endif
