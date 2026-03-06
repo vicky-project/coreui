@@ -32,6 +32,8 @@
     </div>
   </div>
 
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Telegram WebApp SDK -->
@@ -42,38 +44,51 @@
     document.addEventListener('DOMContentLoaded', function() {
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
     const content = document.getElementById('content');
-    const overlay = document.querySelector('.sidebar-overlay'); // opsional
 
+    if (!toggleBtn || !sidebar) return;
+
+    // Fungsi untuk menutup sidebar di mobile
+    function closeMobileSidebar() {
+    if (window.innerWidth < 768) {
+    sidebar.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    }
+    }
+
+    // Fungsi untuk toggle sidebar
     function handleToggle() {
     const isMobile = window.innerWidth < 768;
 
     if (isMobile) {
-    // Mode mobile: toggle class 'active' pada sidebar
+    // Mode mobile: toggle active
     sidebar.classList.toggle('active');
     if (overlay) overlay.classList.toggle('active');
     } else {
-    // Mode desktop: toggle class 'collapsed'
+    // Mode desktop: toggle collapsed
     sidebar.classList.toggle('collapsed');
     content.classList.toggle('expanded');
-    // Simpan status collapsed di localStorage
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
     }
     }
 
-    if (toggleBtn && sidebar) {
+    // Event listener untuk tombol toggle
     toggleBtn.addEventListener('click', handleToggle);
-    }
 
-    // Tutup sidebar di mobile saat overlay diklik
+    // Klik di overlay menutup sidebar
     if (overlay) {
-    overlay.addEventListener('click', function() {
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-    });
+    overlay.addEventListener('click', closeMobileSidebar);
     }
 
-    // Saat resize, pastikan status sesuai dengan ukuran layar
+    // Tekan tombol Escape untuk menutup sidebar di mobile
+    document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && window.innerWidth < 768 && sidebar.classList.contains('active')) {
+    closeMobileSidebar();
+    }
+    });
+
+    // Handle resize
     let previousWidth = window.innerWidth;
     window.addEventListener('resize', function() {
     const currentWidth = window.innerWidth;
@@ -98,7 +113,7 @@
     previousWidth = currentWidth;
     });
 
-    // Inisialisasi status saat halaman dimuat
+    // Inisialisasi desktop
     if (window.innerWidth >= 768) {
     const wasCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
     if (wasCollapsed) {

@@ -70,6 +70,21 @@
     margin: 10px 0;
     }
 
+    .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+    }
+    .sidebar-overlay.active {
+    display: block;
+    }
+
     /* Konten utama di mobile mengambil seluruh lebar */
     .content {
     flex: 1;
