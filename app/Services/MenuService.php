@@ -99,9 +99,8 @@ class MenuService
   */
   public function getAllMenus(): array
   {
-    $providers = $this->scanMenuProviders()->toArray();
-    \Log::debug("all menus",
-      ['menu' => $providers]);
+    $providersCollection = $this->scanMenuProviders();
+    $providers = $providersCollection->toArray();
 
     $menus = [
       "sidebar" => collect(),
@@ -110,7 +109,11 @@ class MenuService
       "quick_actions" => collect(),
     ];
 
-    foreach ($providers as $provider) {
+    foreach ($providers as $key => $provider) {
+      if (!is_object($provider) || !$provider instanceof MenuProvider) {
+        logger()->warning("Invalid provider found.", ["key" => $key, "provider" => $provider]);
+      }
+
       $providerMenus = $provider->getMenus();
       $providerConfig = $provider->getConfig();
 
