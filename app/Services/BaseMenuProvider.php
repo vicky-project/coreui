@@ -2,6 +2,7 @@
 namespace Modules\CoreUI\Services;
 
 use Modules\CoreUI\Interfaces\MenuProvider;
+use Illuminate\Support\Str;
 
 abstract class BaseMenuProvider implements MenuProvider
 {
@@ -55,7 +56,7 @@ abstract class BaseMenuProvider implements MenuProvider
   protected function item(array $item): array
   {
     $defaults = [
-      "id" => $this->module.'_'.str_slug($item['title']??uniqid()),
+      "id" => $this->module.'_'. Str::slug($item['title']??uniqid()),
       "type" => "link",
       "title" => "",
       "icon" => null,
