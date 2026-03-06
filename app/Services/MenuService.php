@@ -112,6 +112,7 @@ class MenuService
     foreach ($providers as $key => $provider) {
       if (!is_object($provider) || !$provider instanceof MenuProvider) {
         logger()->warning("Invalid provider found.", ["key" => $key, "provider" => $provider]);
+        continue;
       }
 
       $providerMenus = $provider->getMenus();
