@@ -85,5 +85,5 @@ $currentUser = auth()->user();
   <div class="p-3 text-muted">
     No menu items available.
   </div>
+  @endif
 </nav>
-@endif
