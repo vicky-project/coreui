@@ -27,7 +27,6 @@ class CoreUIServiceProvider extends ServiceProvider
     $this->registerTranslations();
     $this->registerConfig();
     $this->registerViews();
-    $this->loadMigrationsFrom(module_path($this->name, "database/migrations"));
 
     \Blade::directive("hook", function ($expression) {
       return "<?php echo \Modules\CoreUI\Services\UIService::renderHook($expression); ?>";
@@ -51,7 +50,11 @@ class CoreUIServiceProvider extends ServiceProvider
   */
   protected function registerCommands(): void
   {
-    $this->commands([\Modules\CoreUI\Console\ModuleInstall::class]);
+    $this->commands([
+      \Modules\CoreUI\Console\ClearMenuCacheCommand::class,
+      \Modules\CoreUI\Console\ModuleInstall::class,
+      \Modules\CoreUI\Console\ScanMenuProvidersCommand::class,
+    ]);
   }
 
   /**
