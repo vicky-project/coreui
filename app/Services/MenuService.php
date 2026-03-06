@@ -100,6 +100,9 @@ class MenuService
   public function getAllMenus(): array
   {
     $providers = $this->scanMenuProviders();
+    \Log::debug("all menus",
+      ['menu' => $providers]);
+
     $menus = [
       "sidebar" => collect(),
       "navbar" => collect(),
