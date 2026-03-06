@@ -47,7 +47,7 @@ class MenuService
 
               if ($reflection->implementsInterface(MenuProvider::class)) {
                 $provider = app($className);
-                $providers->push($provider->getName(), $provider);
+                $providers->put($provider->getName(), $provider);
               }
             }
           }
