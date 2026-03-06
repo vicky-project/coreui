@@ -43,31 +43,74 @@
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
+    const overlay = document.querySelector('.sidebar-overlay'); // opsional
 
-    if (toggleBtn) {
-    toggleBtn.addEventListener('click', function() {
+    function handleToggle() {
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+    // Mode mobile: toggle class 'active' pada sidebar
+    sidebar.classList.toggle('active');
+    if (overlay) overlay.classList.toggle('active');
+    } else {
+    // Mode desktop: toggle class 'collapsed'
     sidebar.classList.toggle('collapsed');
     content.classList.toggle('expanded');
+    // Simpan status collapsed di localStorage
+    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    }
+    }
 
-    // Save state to localStorage
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    localStorage.setItem('sidebarCollapsed', isCollapsed);
+    if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', handleToggle);
+    }
+
+    // Tutup sidebar di mobile saat overlay diklik
+    if (overlay) {
+    overlay.addEventListener('click', function() {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
     });
     }
 
-    // Restore sidebar state from localStorage
-    const savedState = localStorage.getItem('sidebarCollapsed');
-    if (savedState === 'true') {
+    // Saat resize, pastikan status sesuai dengan ukuran layar
+    let previousWidth = window.innerWidth;
+    window.addEventListener('resize', function() {
+    const currentWidth = window.innerWidth;
+    const wasMobile = previousWidth < 768;
+    const isMobile = currentWidth < 768;
+
+    if (wasMobile !== isMobile) {
+    // Reset semua class
+    sidebar.classList.remove('active', 'collapsed');
+    content.classList.remove('expanded');
+    if (overlay) overlay.classList.remove('active');
+
+    if (!isMobile) {
+    // Desktop: atur collapsed sesuai localStorage
+    const wasCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (wasCollapsed) {
     sidebar.classList.add('collapsed');
     content.classList.add('expanded');
     }
+    }
+    }
+    previousWidth = currentWidth;
+    });
 
-    // Telegram Mini App detection
-    if (window.Telegram?.WebApp) {
-    Telegram.WebApp.ready();
-    Telegram.WebApp.expand();
-    document.body.classList.add('telegram-app');
+    // Inisialisasi status saat halaman dimuat
+    if (window.innerWidth >= 768) {
+    const wasCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (wasCollapsed) {
+    sidebar.classList.add('collapsed');
+    content.classList.add('expanded');
+    }
+    }
+    });
+  </script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
     // Set session flag via AJAX if needed (optional)
     @if(Route::has('telegram.set-session'))
     fetch('{{ secure_url(route("telegram.set-session")) }}', {
@@ -79,7 +122,6 @@
     body: JSON.stringify({ is_telegram_app: true })
     });
     @endif
-    }
     });
   </script>
 

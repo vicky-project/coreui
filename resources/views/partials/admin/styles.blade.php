@@ -6,17 +6,27 @@
   .wrapper {
     display: flex;
     min-height: 100vh;
+    position: relative;
   }
+
+  /* ===== MOBILE FIRST (default untuk layar kecil) ===== */
   .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    /* tersembunyi di luar layar */
     width: 260px;
+    height: 100vh;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    transition: all 0.3s;
-    position: fixed;
-    height: 100vh;
-    overflow-y: auto;
+    transition: left 0.3s ease;
     z-index: 1000;
+    overflow-y: auto;
     }
+    .sidebar.active {
+    left: 0; /* muncul saat tombol toggle diklik */
+    }
+
     .sidebar .sidebar-header {
     padding: 20px 15px;
     text-align: center;
@@ -59,29 +69,16 @@
     border-top: 1px solid rgba(255,255,255,0.2);
     margin: 10px 0;
     }
-    .sidebar.collapsed {
-    width: 70px;
-    }
-    .sidebar.collapsed .sidebar-header h3,
-    .sidebar.collapsed .nav-link span {
-    display: none;
-    }
-    /* Telegram adaptation */
-    body.telegram-app .sidebar {
-    background: var(--tg-theme-secondary-bg-color, #667eea);
-    }
-    body.telegram-app .sidebar .nav-link {
-    color: var(--tg-theme-text-color, white);
-    }
+
+    /* Konten utama di mobile mengambil seluruh lebar */
     .content {
     flex: 1;
-    margin-left: 260px;
+    margin-left: 0;
     transition: margin-left 0.3s ease;
     padding: 20px;
+    width: 100%;
     }
-    .content.expanded {
-    margin-left: 70px;
-    }
+
     .navbar-top {
     background: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -98,6 +95,68 @@
     color: #667eea;
     line-height: 1;
     }
+
+    /* ===== LAYAR SEDANG DAN BESAR (≥768px) ===== */
+    @media (min-width: 768px) {
+    .sidebar {
+    left: 0; /* sidebar selalu terlihat */
+    width: 260px;
+    position: fixed;
+    }
+    .sidebar.collapsed {
+    width: 70px;
+    }
+    .sidebar.collapsed .sidebar-header h3,
+    .sidebar.collapsed .nav-link span {
+    display: none;
+    }
+    .content {
+    margin-left: 260px;
+    }
+    .content.expanded {
+    margin-left: 70px; /* saat sidebar collapsed */
+    }
+    /* Di desktop, kelas active tidak digunakan untuk menampilkan/menyembunyikan */
+    .sidebar.active {
+    left: 0; /* tidak berpengaruh, tetapi biarkan saja */
+    }
+    }
+
+    /* ===== OVERLAY UNTUK MOBILE (opsional) ===== */
+    .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    }
+    .sidebar-overlay.active {
+    display: block;
+    }
+
+    /* ===== TELEGRAM ADAPTATION ===== */
+    body.telegram-app {
+    background: var(--tg-theme-bg-color, #f4f6f9);
+    }
+    body.telegram-app .sidebar {
+    background: var(--tg-theme-secondary-bg-color, #667eea);
+    }
+    body.telegram-app .sidebar .nav-link {
+    color: var(--tg-theme-text-color, white);
+    }
+    body.telegram-app .navbar-top {
+    background: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+    }
+    body.telegram-app .card {
+    background: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+    }
+
+    /* ===== STYLE LAINNYA ===== */
     .card {
     border: none;
     border-radius: 10px;
@@ -125,34 +184,5 @@
     }
     .btn-outline-secondary {
     border-radius: 25px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-    .sidebar {
-    margin-left: -260px;
-    }
-    .sidebar.active {
-    margin-left: 0;
-    }
-    .content {
-    margin-left: 0;
-    }
-    .content.expanded {
-    margin-left: 0;
-    }
-    }
-
-    /* Telegram Mini App adaptation */
-    body.telegram-app {
-    background: var(--tg-theme-bg-color, #f4f6f9);
-    }
-    body.telegram-app .navbar-top {
-    background: var(--tg-theme-bg-color, #ffffff);
-    color: var(--tg-theme-text-color, #000000);
-    }
-    body.telegram-app .card {
-    background: var(--tg-theme-bg-color, #ffffff);
-    color: var(--tg-theme-text-color, #000000);
     }
     </style>
