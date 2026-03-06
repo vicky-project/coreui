@@ -26,7 +26,7 @@ class MenuRenderer
       }
     }
 
-    return view("coreui::partials.sidebar", [
+    return view("coreui::partials.admin.sidebar", [
       "menus" => $filteredMenus,
       "group" => $group,
     ])->render();
@@ -40,7 +40,7 @@ class MenuRenderer
     $menus = $this->menuService->getNavbarMenus();
     $filteredMenus = $this->menuService->filterMenusByUser($menus, $user);
 
-    return view("coreui::partials.navbar", [
+    return view("coreui::partials.admin.navbar", [
       "menus" => $filteredMenus,
     ])->render();
   }
@@ -56,7 +56,7 @@ class MenuRenderer
     $menus = $this->menuService->getMenusByLocation($location, $group);
     $filteredMenus = $this->menuService->filterMenusByUser($menus, $user);
 
-    return view("coreui::partials.{$location}", [
+    return view("coreui::partials.admin.{$location}", [
       "menus" => $filteredMenus,
       "group" => $group,
     ])->render();

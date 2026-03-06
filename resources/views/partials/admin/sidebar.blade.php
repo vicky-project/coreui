@@ -1,47 +1,89 @@
+@props(['menus' => [], 'group' => null])
+
+@php
+$menuService = app(\Modules\CoreUI\Services\MenuService::class);
+$currentUser = auth()->user();
+@endphp
+
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <h3>{{ config('app.name') }}</h3>
   </div>
 
+  @if(!empty($menus))
   <ul class="nav flex-column">
+    @foreach($menus as $groupName => $groupMenus)
+    {{-- Header grup jika bukan grup default --}}
+    @if($groupName !== 'default' && !empty($groupMenus))
+    <li class="nav-header">{{ $groupName }}</li>
+    @endif
+
+    @foreach($groupMenus as $menu)
     @php
-    // Tentukan menu berdasarkan ketersediaan modul Admin
-    $menuManager = app(\Modules\CoreUI\Services\MenuManager::class);
-    $menus = $menuManager->getAll();
+    $hasChildren = !empty($menu['children']);
+    $isActive = $menuService->isActive($menu);
+    $canAccess = $menuService->canAccess($menu, $currentUser);
     @endphp
 
-    @foreach($menus as $menu)
-    @if(isset($menu['children']) && count($menu['children']) > 0)
-    {{-- Menu dengan submenu (dropdown) --}}
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="{{ $menu['icon'] ?? 'bi bi-folder' }}"></i>
-        <span>{{ $menu['title'] }}</span>
-      </a>
-      <ul class="dropdown-menu">
-        @foreach($menu['children'] as $child)
-        @can($child['permission'] ?? 'access admin')
-        <li>
-          <a class="dropdown-item" href="{{ isset($child['route']) ? route($child['route']) : '#' }}">
-            <i class="{{ $child['icon'] ?? 'bi bi-dot' }}"></i> {{ $child['title'] }}
-          </a>
-        </li>
-        @endcan
-        @endforeach
-      </ul>
-    </li>
+    @if($canAccess)
+    @if(($menu['type'] ?? 'link') === 'divider')
+    <li><hr class="sidebar-divider"></li>
+    @elseif(($menu['type'] ?? 'link') === 'header')
+    <li class="nav-header">{{ $menu['title'] }}</li>
     @else
-    {{-- Menu biasa --}}
-    @can($menu['permission'] ?? 'access admin')
-    <li class="nav-item">
-      <a class="nav-link {{ request()->routeIs($menu['route'] ?? '') ? 'active' : '' }}"
-        href="{{ isset($menu['route']) ? route($menu['route']) : '#' }}">
-        <i class="{{ $menu['icon'] ?? 'bi bi-circle' }}"></i>
+    <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }}">
+      <a href="{{ $menu['url'] ?? ($menu['route'] ? route($menu['route'], $menu['route_params'] ?? []) : '#') }}"
+        class="nav-link {{ $isActive ? 'active' : '' }} {{ $hasChildren ? 'dropdown-toggle' : '' }}"
+        @if($hasChildren) data-bs-toggle="collapse" data-bs-target="#collapse-{{ $menu['id'] }}" aria-expanded="false" @endif
+        @if(!empty($menu['target'])) target="{{ $menu['target'] }}" @endif
+        {!! $menu['attributes'] ? implode(' ', array_map(fn($k, $v) => "$k=\"$v\"", array_keys($menu['attributes']), $menu['attributes'])) : '' !!}
+        >
+        @if(!empty($menu['icon']))
+        <i class="{{ $menu['icon'] }}"></i>
+        @endif
         <span>{{ $menu['title'] }}</span>
+        @if(!empty($menu['badge']))
+        <span class="badge bg-{{ $menu['badge_type'] ?? 'primary' }} ms-auto">{{ $menu['badge'] }}</span>
+        @endif
       </a>
+
+      @if($hasChildren)
+      <div class="collapse" id="collapse-{{ $menu['id'] }}">
+        <ul class="nav flex-column ms-3">
+          @foreach($menu['children'] as $child)
+          @php
+          $childActive = $menuService->isActive($child);
+          $childCanAccess = $menuService->canAccess($child, $currentUser);
+          @endphp
+          @if($childCanAccess)
+          <li class="nav-item">
+            <a href="{{ $child['url'] ?? ($child['route'] ? route($child['route'], $child['route_params'] ?? []) : '#') }}"
+              class="nav-link {{ $childActive ? 'active' : '' }}"
+              @if(!empty($child['target'])) target="{{ $child['target'] }}" @endif
+              >
+              @if(!empty($child['icon']))
+              <i class="{{ $child['icon'] }}"></i>
+              @endif
+              <span>{{ $child['title'] }}</span>
+              @if(!empty($child['badge']))
+              <span class="badge bg-{{ $child['badge_type'] ?? 'primary' }} ms-auto">{{ $child['badge'] }}</span>
+              @endif
+            </a>
+          </li>
+          @endif
+          @endforeach
+        </ul>
+      </div>
+      @endif
     </li>
-    @endcan
+    @endif
     @endif
     @endforeach
+    @endforeach
   </ul>
+  @else
+  <div class="p-3 text-muted">
+    No menu items available.
+  </div>
 </nav>
+@endif
