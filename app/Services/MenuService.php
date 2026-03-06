@@ -269,6 +269,7 @@ class MenuService
     }
 
     // Check permission
+    $user = $user ?? auth()->user();
     if (
       !empty($menuItem["permission"]) &&
       !$user->can($menuItem["permission"])
