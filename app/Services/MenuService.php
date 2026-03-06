@@ -99,7 +99,7 @@ class MenuService
   */
   public function getAllMenus(): array
   {
-    $providers = $this->scanMenuProviders();
+    $providers = $this->scanMenuProviders()->toArray();
     \Log::debug("all menus",
       ['menu' => $providers]);
 
