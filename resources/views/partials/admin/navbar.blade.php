@@ -6,7 +6,7 @@
 
   <div class="dropdown">
     <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-      <i class="bi bi-person-circle fs-5"></i>
+      <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="rounded-circle" width="32" height="32">
       <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
     </button>
     <ul class="dropdown-menu dropdown-menu-end">

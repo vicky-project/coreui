@@ -21,7 +21,7 @@
         @hook('navbar')
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+            <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="rounded-circle" width="32" height="32"> {{ Auth::user()->name }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person"></i> Profile</a></li>
