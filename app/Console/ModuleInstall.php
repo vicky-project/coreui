@@ -12,7 +12,7 @@ class ModuleInstall extends Command
   /**
   * The name and signature of the console command.
   */
-  protected $signature = "app:install {module?* : The module name(s) to install. If none provided, all modules will be installed.} {--force : Overwriting existing views by default.}";
+  protected $signature = "app:install {module?* : The module name(s) to install. If none provided, all modules will be installed.} {--with-view : With view welcome installation.} {--force : Overwriting existing views by default.}";
 
   /**
   * The console command description.
@@ -99,7 +99,9 @@ class ModuleInstall extends Command
       $this->error("Some installations failed. Check the logs for details.");
     }
 
-    $this->exportViews();
+    if ($this->option('with-view')) {
+      $this->exportViews();
+    }
 
     return $exitCode;
   }
