@@ -17,7 +17,9 @@
 </head>
 <body class="{{ session('is_telegram_app') ? 'telegram-app' : '' }}">
   <!-- Navbar -->
+  @if(!session('is_telegram_app'))
   @include('coreui::partials.app.navbar')
+  @endif
 
   <!-- Toast Container for Flash Messages -->
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
