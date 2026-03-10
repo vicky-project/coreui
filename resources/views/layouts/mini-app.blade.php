@@ -14,6 +14,7 @@
 </head>
 <body>
   <!-- Toast Container for Flash Messages -->
+  @if(session('success') || $errors->any())
   <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
     @if(session('success'))
     <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
@@ -42,6 +43,7 @@
     </div>
     @endif
   </div>
+  @endif
 
   <div class="main-container">
     @yield('content')
@@ -113,6 +115,47 @@
 
     // Beri tahu Telegram bahwa halaman sudah siap
     tg.ready();
+
+    // Fungsi toast
+    function showToast(message, type = 'success') {
+      let toastContainer = document.querySelector('.toast-container');
+      if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+        document.body.appendChild(toastContainer);
+
+        const toastEl = document.createElement('div');
+        toastEl.id = 'liveToast';
+        toastEl.className = 'toast';
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+        toastEl.innerHTML = `
+        <div class="toast-header">
+        <strong class="me-auto">Notifikasi</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+        `;
+        toastContainer.appendChild(toastEl);
+      }
+
+      const toastEl = document.getElementById('liveToast');
+      const toastBody = toastEl.querySelector('.toast-body');
+      toastBody.textContent = message;
+
+      toastEl.classList.remove('bg-success', 'bg-danger', 'text-white');
+      if (type === 'success') {
+        toastEl.classList.add('bg-success', 'text-white');
+      } else if (type === 'danger') {
+        toastEl.classList.add('bg-danger', 'text-white');
+      } else {
+        toastEl.classList.add('bg-info', 'text-white');
+      }
+
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi semua toast yang ada di halaman
