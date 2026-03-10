@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarUser">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+          <a class="nav-link {{ request()->routeIs('apps.index') ? 'active' : '' }}" href="{{ route('apps.index') }}">
             <i class="bi bi-speedometer2"></i> Dashboard
           </a>
         </li>
