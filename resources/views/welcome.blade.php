@@ -12,7 +12,7 @@
     <a href="{{ route('register') }}" class="btn btn-light btn-lg px-5 me-2">Mulai Sekarang</a>
     <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg px-5">Masuk</a>
     @else
-    <a href="{{ route('apps.dashboard') }}" class="btn btn-light btn-lg px-5">Dashboard</a>
+    <a href="{{ route('apps.index') }}" class="btn btn-light btn-lg px-5">Dashboard</a>
     @endguest
   </div>
 </div>
