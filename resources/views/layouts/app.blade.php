@@ -167,7 +167,7 @@
     // Telegram Mini App detection
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram?.WebApp;
-    if (tg) {
+    if (tg?.initData) {
       alert("anda menggunakan telegram", JSON.stringify(tg));
       applyTelegramTheme();
       tg.onEvent('themeChanged', function() {
