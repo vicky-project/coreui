@@ -168,7 +168,7 @@
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram?.WebApp;
     if (tg) {
-      alert("anda menggunakan telegram");
+      alert("anda menggunakan telegram", JSON.stringify(tg));
       applyTelegramTheme();
       tg.onEvent('themeChanged', function() {
       applyTelegramTheme();
