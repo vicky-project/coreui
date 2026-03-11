@@ -108,7 +108,7 @@
       </li>
       @auth
       <li class="nav-item">
-      <a class="nav-link" href="{{ route('user.dashboard') }}">
+      <a class="nav-link" href="{{ route('apps.index') }}">
       <i class="bi bi-speedometer2"></i> Dashboard
       </a>
       </li>
