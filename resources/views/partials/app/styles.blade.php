@@ -102,39 +102,139 @@
     color: var(--tg-theme-button-text-color, white);
     }
 
-    /* Perbaikan untuk tampilan web biasa (bukan Telegram) */
+    /* ===== TAMPILAN WEB BIASA (BUKAN TELEGRAM) ===== */
     body:not(.telegram-app) {
-    background: linear-gradient(145deg, #eef2f6 0%, #d9e2ec 100%);
+    background: linear-gradient(145deg, #f0f5fa 0%, #e6edf4 100%);
+    color: #1e293b;
     }
 
+    /* Navbar */
+    body:not(.telegram-app) .navbar-custom {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    body:not(.telegram-app) .navbar-custom .navbar-brand {
+    color: #1e293b;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    }
+    body:not(.telegram-app) .navbar-custom .nav-link {
+    color: #4a5568;
+    }
+    body:not(.telegram-app) .navbar-custom .nav-link:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    }
+    body:not(.telegram-app) .navbar-custom .dropdown-menu {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    body:not(.telegram-app) .navbar-custom .dropdown-item i {
+    color: #667eea;
+    }
+
+    /* Main Content */
+    body:not(.telegram-app) .main-content {
+    padding: 40px 0;
+    }
+
+    /* Cards */
     body:not(.telegram-app) .card {
     background: #ffffff;
     border: none;
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s, box-shadow 0.2s;
     }
-
     body:not(.telegram-app) .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 30px 40px -15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1);
     }
-
     body:not(.telegram-app) .card-header {
-    background: #ffffff;
-    border-bottom: 2px solid #667eea;
-    padding: 1rem 1.5rem;
+    background: transparent;
+    border-bottom: 2px solid #f1f5f9;
+    font-weight: 600;
+    padding: 1.25rem 1.5rem;
+    border-radius: 20px 20px 0 0 !important;
+    color: #1e293b;
+    }
+    body:not(.telegram-app) .card-header i {
+    color: #667eea;
+    margin-right: 8px;
+    }
+    body:not(.telegram-app) .card-body {
+    padding: 1.5rem;
     }
 
+    /* Buttons */
+    body:not(.telegram-app) .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 40px;
+    padding: 0.6rem 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    transition: all 0.2s;
+    }
+    body:not(.telegram-app) .btn-primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46a1 100%);
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+    body:not(.telegram-app) .btn-outline-secondary {
+    border: 2px solid #e2e8f0;
+    border-radius: 40px;
+    color: #4a5568;
+    transition: all 0.2s;
+    }
+    body:not(.telegram-app) .btn-outline-secondary:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    }
+
+    /* Footer */
     body:not(.telegram-app) .footer {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(8px);
     border-top: 1px solid rgba(0, 0, 0, 0.05);
-    color: #334155;
+    color: #4a5568;
+    padding: 1.5rem 0;
     }
-
     @supports not (backdrop-filter: blur(8px)) {
     body:not(.telegram-app) .footer {
-    background: #f1f5f9;
+    background: #f8fafc;
     }
+    }
+
+    /* Form elements */
+    body:not(.telegram-app) .form-control {
+    border: 2px solid #e2e8f0;
+    border-radius: 40px;
+    padding: 0.6rem 1.2rem;
+    transition: border-color 0.2s;
+    }
+    body:not(.telegram-app) .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    body:not(.telegram-app) .form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+    }
+
+    /* Toasts */
+    body:not(.telegram-app) .toast {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.2);
+    }
+    body:not(.telegram-app) .toast-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
     </style>
