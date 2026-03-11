@@ -101,4 +101,58 @@
     background: var(--tg-theme-button-color, #40a7e3);
     color: var(--tg-theme-button-text-color, white);
     }
+
+    /* Tampilan web biasa (bukan Telegram) */
+    body:not(.telegram-app) {
+    background: linear-gradient(145deg, #e6e9f0 0%, #d1d9e6 100%);
+    /* Warna gradien lembut, tidak terlalu mencolok */
+    }
+
+    body:not(.telegram-app) .card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    body:not(.telegram-app) .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15);
+    }
+
+    body:not(.telegram-app) .navbar-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Tetap gradien asli */
+    }
+
+    body:not(.telegram-app) .footer {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    color: #4a5568;
+    }
+
+    /* Jika backdrop-filter tidak didukung, fallback */
+    @supports not (backdrop-filter: blur(10px)) {
+    body:not(.telegram-app) .footer {
+    background: #f8fafc;
+    }
+    }
+
+    /* Aksen pada tombol */
+    body:not(.telegram-app) .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    }
+
+    body:not(.telegram-app) .btn-primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46a1 100%);
+    box-shadow: 0 10px 15px -3px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Header card dengan garis aksen */
+    body:not(.telegram-app) .card-header {
+    background: #f9fafc;
+    border-bottom: 2px solid #667eea;
+    }
     </style>
