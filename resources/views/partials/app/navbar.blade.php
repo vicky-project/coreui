@@ -28,7 +28,7 @@
             <li><hr class="dropdown-divider"></li>
             <li>
               <a class="dropdown-item" href="{{ route('logout') }}"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                onclick="event.preventDefault(); logOut();">
                 <i class="bi bi-box-arrow-right"></i> Logout
               </a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -41,3 +41,12 @@
     </div>
   </div>
 </nav>
+
+<script>
+  function logOut() {
+    if (!confirm("Are you sure to end this session ?")) return;
+
+    const logoutForm = document.getElementById("logout-form");
+    logoutForm.submit();
+  }
+</script>
