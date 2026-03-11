@@ -1,4 +1,4 @@
-@extends('coreui::layouts.public')
+@extends('coreui::layouts.app')
 @section('title', 'Selamat Datang')
 @section('content')
 <!-- Hero Section -->
