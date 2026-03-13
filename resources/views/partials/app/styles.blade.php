@@ -4,6 +4,7 @@
     line-height: 1.5;
     /* Latar gradien lembut selaras dengan navbar */
     background: linear-gradient(145deg, #f9faff 0%, #f0f2f5 100%);
+    color: #212529;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     display: flex;
