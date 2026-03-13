@@ -174,7 +174,11 @@
       });
       tg.ready();
       tg.expand();
-      tg.BackButton({ isVisible: true }).onClick(() => window.location = '{{ config("coreui.home_url") }}/'+ tg.initData).show();
+      tg.BackButton.isVisible = true;
+      tg.onEvent("backButtonClicked",
+      () => window.location = '{{ config("coreui.home_url") }}/'+ tg.initData
+      );
+      tg.BackButton.show();
 
       // Optionally send session flag to server
       @if(Route::has('telegram.set-session'))
