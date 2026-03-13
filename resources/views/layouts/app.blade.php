@@ -70,7 +70,7 @@
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Telegram WebApp SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
 
   <script>
     // Terapkan tema Telegram ke CSS variables
@@ -174,7 +174,7 @@
       });
       tg.ready();
       tg.expand();
-      document.body.classList.add('telegram-app');
+      tg.BackButton().onClick(() => window.location = '{{ config("coreui.home_url") }}/'+ tg.initData).show();
 
       // Optionally send session flag to server
       @if(Route::has('telegram.set-session'))

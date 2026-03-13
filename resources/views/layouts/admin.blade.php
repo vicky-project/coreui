@@ -37,7 +37,7 @@
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Telegram WebApp SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js?59"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
 
   <script>
     // Toggle sidebar
