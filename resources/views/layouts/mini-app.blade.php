@@ -161,8 +161,7 @@
       const initData = window.Telegram?.WebApp?.initData || @json(request()->get("initData", ""));
       if (!initData) return;
 
-      const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}';
-      if (!token) return;
+      const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}' || "";
 
       const links = document.querySelectorAll('a');
       links.forEach(function(link) {
