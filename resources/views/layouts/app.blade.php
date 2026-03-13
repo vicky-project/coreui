@@ -15,7 +15,7 @@
 
   @stack('styles')
 </head>
-<body>
+<body class="{{ request()->has('token') ? 'telegram-app' : ''}}">
   <!-- Navbar -->
   @if(!session("is_telegram_app", false))
   @include('coreui::partials.app.navbar')
