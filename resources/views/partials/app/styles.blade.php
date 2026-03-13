@@ -2,20 +2,27 @@
   body {
     font-size: 14px;
     line-height: 1.5;
-    background-color: #f8f9fa;
+    /* Latar gradien lembut selaras dengan navbar */
+    background: linear-gradient(145deg, #f9faff 0%, #f0f2f5 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-  }
+    }
 
-  .container {
+    /* Dark mode untuk web biasa */
+    body[data-bs-theme="dark"] {
+    background: linear-gradient(145deg, #1a202c 0%, #2d3748 100%);
+    color: #e9ecef;
+    }
+
+    .container {
     padding-left: 15px;
     padding-right: 15px;
-  }
+    }
 
-  /* Navbar */
-  .navbar-custom {
+    /* Navbar */
+    .navbar-custom {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     padding: 0.5rem 1rem;
