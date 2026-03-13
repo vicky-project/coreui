@@ -176,7 +176,9 @@
     tg.BackButton.isVisible = true;
     tg.onEvent("backButtonClicked",
     function () {
-    window.location = '{{ config("coreui.home_url") }}/?initData='+ tg.initData;
+    const urlObj = new URL('{{ config("coreui.home_url") }}', window.location.origin);
+    urlObj.searchParams.set("initData", tg.initData);
+    window.location = urlObj.toString();
     });
     tg.BackButton.show();
     tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
