@@ -172,13 +172,14 @@
       tg.onEvent('themeChanged', function() {
       applyTelegramTheme();
       });
-      tg.ready();
-      tg.expand();
       tg.BackButton.isVisible = true;
       tg.onEvent("backButtonClicked",
       () => window.location = '{{ config("coreui.home_url") }}/'+ tg.initData
       );
       tg.BackButton.show();
+      tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
+      tg.ready();
+      tg.expand();
 
       // Optionally send session flag to server
       @if(Route::has('telegram.set-session'))
