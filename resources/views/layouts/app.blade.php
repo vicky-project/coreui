@@ -164,38 +164,26 @@
       toast.show();
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
     // Telegram Mini App detection
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram?.WebApp;
     if (tg?.initData) {
-      applyTelegramTheme();
-      tg.onEvent('themeChanged', function() {
-      applyTelegramTheme();
-      });
-      tg.BackButton.isVisible = true;
-      tg.onEvent("backButtonClicked",
-      () => window.location = '{{ config("coreui.home_url") }}/'+ tg.initData
-      );
-      tg.BackButton.show();
-      tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
-      tg.expand();
-      tg.ready();
-
-      // Optionally send session flag to server
-      @if(Route::has('telegram.set-session'))
-      fetch('{{ secure_url(route("telegram.set-session")) }}', {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ is_telegram_app: true })
-      });
-      @endif
+    applyTelegramTheme();
+    tg.onEvent('themeChanged', function() {
+    applyTelegramTheme();
+    });
+    tg.BackButton.isVisible = true;
+    tg.onEvent("backButtonClicked",
+    function () {
+    window.location = '{{ config("coreui.home_url") }}/?initData='+ tg.initData;
+    });
+    tg.BackButton.show();
+    tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
+    tg.expand();
+    tg.ready();
     }
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
+
     // Inisialisasi semua toast yang ada di halaman
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
     var toastList = toastElList.map(function(toastEl) {
