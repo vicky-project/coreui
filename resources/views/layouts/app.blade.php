@@ -178,8 +178,8 @@
       );
       tg.BackButton.show();
       tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
-      tg.ready();
       tg.expand();
+      tg.ready();
 
       // Optionally send session flag to server
       @if(Route::has('telegram.set-session'))
