@@ -157,7 +157,26 @@
       toast.show();
     }
 
+    function appendQuery() {
+      const initData = window.Telegram?.WebApp?.initData || @json(request()->get("initData", ""));
+      if (!initData) return;
+
+      const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}';
+      if (!token) return;
+
+      const links = document.querySelectorAll('a');
+      links.forEach(function(link) {
+      const urlObj = new URL(link.href, window.location.origin);
+      urlObj.searchParams.set("initData", initData);
+      urlObj.searchParams.set("token", token);
+      link.href = urlObj.toString();
+      link.setAttribute("disabled", false);
+      link.classList.remove("disabled");
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+    appendQuery();
     // Inisialisasi semua toast yang ada di halaman
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
     var toastList = toastElList.map(function(toastEl) {
