@@ -90,6 +90,7 @@
       });
       tg.BackButton.show();
       tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
+      tg.requestFullscreen();
       tg.expand();
       tg.ready();
     }
