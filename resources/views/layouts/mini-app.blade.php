@@ -164,7 +164,7 @@
         return;
       };
 
-      const token = window.Telegram.WebApp.SecureStorage.getItem("telegram_token", function(error, value) {
+      const token = window.Telegram.WebApp.DeviceStorage.getItem("telegram_token", function(error, value) {
       if(error) alert(error);
 
       return value || null;
