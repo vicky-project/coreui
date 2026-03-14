@@ -170,7 +170,6 @@
     document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
-    tg.requestFullscreen();
     tg.LocationManager.init();
     tg.enableClosingConfirmation();
     tg.expand(); // Memperluas ke layar penuh
