@@ -165,7 +165,6 @@
       };
 
       const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}';
-      alert(token);
 
       const links = document.querySelectorAll('a');
       links.forEach(function(link) {
