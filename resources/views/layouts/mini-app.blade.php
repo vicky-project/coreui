@@ -159,8 +159,10 @@
 
     function appendQuery() {
       const initData = window.Telegram?.WebApp?.initData || @json(request()->get("initData", ""));
-      alert(initData);
-      if (!initData) return;
+      if (!initData) {
+        alert("initData not found."+ initData);
+        return;
+      };
 
       const token = window.Telegram.WebApp.SecureStorage.getItem("telegram_token", (error, value) => value) || '{{ request()->get("token") }}' || "";
       alert(token);
