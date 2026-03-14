@@ -55,14 +55,10 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Inisialisasi Telegram WebApp
-    const tg = window.Telegram.WebApp;
-    tg.LocationManager.init();
-    tg.enableClosingConfirmation();
-    tg.expand(); // Memperluas ke layar penuh
 
     // Terapkan tema Telegram ke CSS variables
     function applyTelegramTheme() {
+      const tg = window.Telegram.WebApp;
       if (tg && tg.themeParams) {
         const theme = tg.themeParams;
         document.documentElement.style.setProperty('--tg-theme-bg-color', theme.bg_color || '#ffffff');
@@ -111,13 +107,6 @@
       }
     }
 
-    applyTelegramTheme();
-    tg.onEvent('themeChanged', function() {
-    applyTelegramTheme();
-    });
-
-    // Beri tahu Telegram bahwa halaman sudah siap
-    tg.ready();
 
     // Fungsi toast
     function showToast(message, type = 'success') {
@@ -181,6 +170,18 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.LocationManager.init();
+    tg.enableClosingConfirmation();
+    tg.expand(); // Memperluas ke layar penuh
+    applyTelegramTheme();
+    tg.onEvent('themeChanged', function() {
+    applyTelegramTheme();
+    });
+
+    // Beri tahu Telegram bahwa halaman sudah siap
+    tg.ready();
     appendQuery();
     // Inisialisasi semua toast yang ada di halaman
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
