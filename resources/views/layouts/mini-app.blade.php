@@ -57,6 +57,7 @@
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
     tg.expand(); // Memperluas ke layar penuh
+    tg.LocationManager.init();
 
     // Terapkan tema Telegram ke CSS variables
     function applyTelegramTheme() {
