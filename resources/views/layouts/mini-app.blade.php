@@ -162,6 +162,7 @@
       if (!initData) return;
 
       const token = window.Telegram.WebApp.SecureStorage.getItem("telegram_token", (error, value) => value) || '{{ request()->get("token") }}' || "";
+      alert(token);
 
       const links = document.querySelectorAll('a');
       links.forEach(function(link) {
