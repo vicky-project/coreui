@@ -164,11 +164,7 @@
         return;
       };
 
-      const token = window.Telegram.WebApp.DeviceStorage.getItem("telegram_token", function(error, value) {
-      if(error) alert(error);
-
-      return value || null;
-      }) || '{{ request()->get("token") }}';
+      const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}';
       alert(token);
 
       const links = document.querySelectorAll('a');
