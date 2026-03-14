@@ -55,7 +55,6 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-
     // Terapkan tema Telegram ke CSS variables
     function applyTelegramTheme() {
       const tg = window.Telegram.WebApp;
@@ -106,7 +105,6 @@
         }
       }
     }
-
 
     // Fungsi toast
     function showToast(message, type = 'success') {
@@ -172,6 +170,7 @@
     document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
+    tg.requestFullscreen();
     tg.LocationManager.init();
     tg.enableClosingConfirmation();
     tg.expand(); // Memperluas ke layar penuh
