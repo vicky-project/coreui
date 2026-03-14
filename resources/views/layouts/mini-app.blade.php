@@ -11,6 +11,9 @@
   @include('coreui::partials.styles')
 
   @stack('styles')
+
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
 </head>
 <body>
   <!-- Toast Container for Flash Messages -->
@@ -51,13 +54,11 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Telegram WebApp SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
   <script>
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
-    tg.expand(); // Memperluas ke layar penuh
     tg.LocationManager.init();
+    tg.expand(); // Memperluas ke layar penuh
 
     // Terapkan tema Telegram ke CSS variables
     function applyTelegramTheme() {
