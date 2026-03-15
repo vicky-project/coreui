@@ -167,24 +167,26 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-    // Inisialisasi Telegram WebApp
+    appendQuery();
+
     const tg = window.Telegram.WebApp;
     tg.LocationManager.init(function(){
     alert("ready");
     });
-    tg.SettingsButton.isVisible = true;
+    tg.SettingsButton.isVisible;
     tg.enableClosingConfirmation();
     tg.expand(); // Memperluas ke layar penuh
     alert(JSON.stringify(tg));
     applyTelegramTheme();
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Inisialisasi Telegram WebApp
     tg.onEvent('themeChanged', function() {
     applyTelegramTheme();
     });
 
     // Beri tahu Telegram bahwa halaman sudah siap
     tg.ready();
-    appendQuery();
     // Inisialisasi semua toast yang ada di halaman
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
     var toastList = toastElList.map(function(toastEl) {
