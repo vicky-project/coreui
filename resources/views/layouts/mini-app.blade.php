@@ -169,12 +169,8 @@
 
     appendQuery();
 
+    // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
-    tg.LocationManager.init(function(){
-    alert("ready");
-    });
-    tg.SettingsButton.isVisible;
-    tg.enableClosingConfirmation();
     tg.expand(); // Memperluas ke layar penuh
     applyTelegramTheme();
     tg.onEvent('themeChanged', function() {
@@ -183,10 +179,8 @@
 
     // Beri tahu Telegram bahwa halaman sudah siap
     tg.ready();
-    alert(JSON.stringify(tg));
 
     document.addEventListener('DOMContentLoaded', function() {
-    // Inisialisasi Telegram WebApp
     // Inisialisasi semua toast yang ada di halaman
     var toastElList = [].slice.call(document.querySelectorAll('.toast'))
     var toastList = toastElList.map(function(toastEl) {
