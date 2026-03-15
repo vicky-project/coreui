@@ -170,10 +170,10 @@
     document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
-    alert(JSON.stringify(tg));
     tg.LocationManager.init();
     tg.enableClosingConfirmation();
     tg.expand(); // Memperluas ke layar penuh
+    alert(JSON.stringify(tg));
     applyTelegramTheme();
     tg.onEvent('themeChanged', function() {
     applyTelegramTheme();
