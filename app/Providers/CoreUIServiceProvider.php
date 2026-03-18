@@ -42,6 +42,10 @@ class CoreUIServiceProvider extends ServiceProvider
     $this->app->register(EventServiceProvider::class);
     $this->app->register(RouteServiceProvider::class);
 
+    $this->app
+    ->make("config")
+    ->set("app.timezone", env("APP_TIMEZONE"));
+
     $this->app->singleton(MenuRenderer::class);
   }
 
