@@ -176,7 +176,7 @@
       <h5 class="fw-bold">{{ config('app.name') }}</h5>
       <p class="text-muted">Solusi modular untuk kebutuhan personal hingga umum. Akses mudah via web dan Telegram Mini App.</p>
       <div class="social-icons mt-3">
-      <a href="https://github.com/yourusername" target="_blank"><i class="bi bi-github"></i></a>
+      <a href="https://github.com/vicky-project" target="_blank"><i class="bi bi-github"></i></a>
       <a href="https://twitter.com/yourhandle" target="_blank"><i class="bi bi-twitter-x"></i></a>
       <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="bi bi-linkedin"></i></a>
       <a href="https://t.me/vickyserver_bot" target="_blank"><i class="bi bi-telegram"></i></a>
@@ -194,8 +194,8 @@
       <div class="col-md-4 mb-4">
       <h5 class="fw-bold">Bantuan & Kontak</h5>
       <ul class="list-unstyled footer-links">
-      <li><i class="bi bi-envelope"></i> <a href="mailto:support@vickyserver.com">support@vickyserver.com</a></li>
-      <li><i class="bi bi-whatsapp"></i> <a href="https://wa.me/6281234567890" target="_blank">+62 812-3456-7890</a></li>
+      <li><i class="bi bi-envelope"></i> <a href="mailto:pratamavr@gmail.com">pratamavr@gmail.com</a></li>
+      <li><i class="bi bi-telegram"></i> <a href="https://t.me/Mekanik_harian" target="_blank">@Mekanik_harian</a></li>
       <li><i class="bi bi-question-circle"></i> <a href="/faq">Pusat Bantuan</a></li>
       </ul>
       </div>
