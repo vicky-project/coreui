@@ -53,9 +53,8 @@
     .footer {
       background: white;
       border-top: 1px solid #e9ecef;
-      padding: 20px 0;
-      text-align: center;
-      color: #6c757d;
+      padding: 40px 0 20px;
+      margin-top: 60px;
     }
     .hero {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -86,6 +85,56 @@
       font-size: 2.5rem;
       color: #667eea;
       }
+      .module-card {
+      border-radius: 20px;
+      background: white;
+      transition: all 0.3s;
+      height: 100%;
+      text-align: center;
+      padding: 1.5rem;
+      }
+      .module-card:hover {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transform: translateY(-8px);
+      }
+      .module-icon {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+      }
+      .btn-telegram {
+      background-color: #26A5E4;
+      border-color: #26A5E4;
+      color: white;
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-weight: 600;
+      }
+      .btn-telegram:hover {
+      background-color: #1e8fc6;
+      border-color: #1e8fc6;
+      color: white;
+      }
+      .social-icons a {
+      font-size: 1.5rem;
+      margin: 0 10px;
+      color: #6c757d;
+      transition: color 0.2s;
+      }
+      .social-icons a:hover {
+      color: #667eea;
+      }
+      .footer-links a {
+      text-decoration: none;
+      color: #6c757d;
+      }
+      .footer-links a:hover {
+      color: #667eea;
+      }
+      @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      }
       </style>
       </head>
       <body>
@@ -100,25 +149,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarPublic">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-      <a class="nav-link" href="#features">Fitur</a>
-      </li>
-      <li class="nav-item">
-      <a class="nav-link" href="#about">Tentang</a>
-      </li>
+      <li class="nav-item"><a class="nav-link" href="#features">Fitur</a></li>
+      <li class="nav-item"><a class="nav-link" href="#modules">Modul</a></li>
+      <li class="nav-item"><a class="nav-link" href="#telegram">Telegram</a></li>
       @auth
-      <li class="nav-item">
-      <a class="nav-link" href="{{ route('apps.index') }}">
-      <i class="bi bi-speedometer2"></i> Dashboard
-      </a>
-      </li>
+      <li class="nav-item"><a class="nav-link" href="{{ route('apps.index') }}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
       @else
-      <li class="nav-item">
-      <a class="nav-link" href="{{ route('login') }}">Login</a>
-      </li>
-      <li class="nav-item">
-      <a class="btn btn-outline-primary ms-2" href="{{ route('register') }}">Daftar</a>
-      </li>
+      <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+      <li class="nav-item"><a class="btn btn-outline-primary ms-2" href="{{ route('register') }}">Daftar</a></li>
       @endauth
       </ul>
       </div>
@@ -130,10 +168,42 @@
       @yield('content')
       </div>
 
-      <!-- Footer -->
+      <!-- Footer Baru -->
       <footer class="footer">
       <div class="container">
+      <div class="row">
+      <div class="col-md-4 mb-4">
+      <h5 class="fw-bold">{{ config('app.name') }}</h5>
+      <p class="text-muted">Solusi modular untuk kebutuhan personal hingga umum. Akses mudah via web dan Telegram Mini App.</p>
+      <div class="social-icons mt-3">
+      <a href="https://github.com/yourusername" target="_blank"><i class="bi bi-github"></i></a>
+      <a href="https://twitter.com/yourhandle" target="_blank"><i class="bi bi-twitter-x"></i></a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="bi bi-linkedin"></i></a>
+      <a href="https://t.me/vickyserver_bot" target="_blank"><i class="bi bi-telegram"></i></a>
+      </div>
+      </div>
+      <div class="col-md-4 mb-4">
+      <h5 class="fw-bold">Tautan Cepat</h5>
+      <ul class="list-unstyled footer-links">
+      <li><a href="#features">Fitur Unggulan</a></li>
+      <li><a href="#modules">Modul Aplikasi</a></li>
+      <li><a href="#telegram">Telegram Mini App</a></li>
+      <li><a href="{{ route('login') }}">Login</a></li>
+      </ul>
+      </div>
+      <div class="col-md-4 mb-4">
+      <h5 class="fw-bold">Bantuan & Kontak</h5>
+      <ul class="list-unstyled footer-links">
+      <li><i class="bi bi-envelope"></i> <a href="mailto:support@vickyserver.com">support@vickyserver.com</a></li>
+      <li><i class="bi bi-whatsapp"></i> <a href="https://wa.me/6281234567890" target="_blank">+62 812-3456-7890</a></li>
+      <li><i class="bi bi-question-circle"></i> <a href="/faq">Pusat Bantuan</a></li>
+      </ul>
+      </div>
+      </div>
+      <hr class="my-3">
+      <div class="text-center">
       <span>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</span>
+      </div>
       </div>
       </footer>
 
