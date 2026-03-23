@@ -34,14 +34,11 @@ class MenuService
           logger()->info("Directory found: {$providerPath}");
 
           $files = File::allFiles($providerPath);
-          logger()->debug("found files: " . count($files));
 
           foreach ($files as $file) {
             $className = $this->getClassNameFromFile($file, $moduleName);
-            logger()->debug("Classname: {$className}");
 
             if ($className && class_exists($className)) {
-              logger()->debug("Class exist for: {$className}");
 
               $reflection = new ReflectionClass($className);
 
