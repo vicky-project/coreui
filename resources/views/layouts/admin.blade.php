@@ -26,7 +26,7 @@
       @include('coreui::partials.admin.navbar')
 
       <!-- Page Content -->
-      <div class="container-fluid">
+      <div class="container">
         @yield('content')
       </div>
     </div>
