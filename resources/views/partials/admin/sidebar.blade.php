@@ -30,7 +30,7 @@ $currentUser = auth()->user();
     <li><hr class="sidebar-divider"></li>
     @elseif(($menu['type'] ?? 'link') === 'header')
     <li class="nav-header">{{ $menu['title'] }}</li>
-    @else
+    @elseif($hasChildren)
     <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }}">
       <a href="{{ $menu['url'] ?? ($menu['route'] ? route($menu['route'], $menu['route_params'] ?? []) : '#') }}"
         class="nav-link {{ $isActive ? 'active' : '' }} {{ $hasChildren ? 'dropdown-toggle' : '' }}"
@@ -76,6 +76,20 @@ $currentUser = auth()->user();
       </div>
       @endif
     </li>
+    @else
+    <a href="{{ $menu['url'] ?? ($menu['route'] ? route($menu['route'], $menu['route_params'] ?? []) : '#') }}"
+      class="nav-link {{ $isActive ? 'active' : '' }}"
+      @if(!empty($menu['target'])) target="{{ $menu['target'] }}" @endif
+      {!! $menu['attributes'] ? implode(' ', array_map(fn($k, $v) => "$k=\"$v\"", array_keys($menu['attributes']), $menu['attributes'])) : '' !!}
+      >
+      @if(!empty($menu['icon']))
+      <i class="{{ $menu['icon'] }}"></i>
+      @endif
+      <span>{{ $menu['title'] }}</span>
+      @if(!empty($menu['badge']))
+      <span class="badge bg-{{ $menu['badge_type'] ?? 'primary' }} ms-auto">{{ $menu['badge'] }}</span>
+      @endif
+    </a>
     @endif
     @endif
     @endforeach
