@@ -23,6 +23,17 @@ $currentUser = auth()->user();
     $hasChildren = !empty($menu['children']);
     $isActive = $menuService->isActive($menu);
     $canAccess = $menuService->canAccess($menu, $currentUser);
+
+    // Cek apakah ada child yang aktif untuk menentukan status dropdown
+    $hasActiveChild = false;
+    if ($hasChildren) {
+    foreach ($menu['children'] as $child) {
+    if ($menuService->isActive($child)) {
+    $hasActiveChild = true;
+    break;
+    }
+    }
+    }
     @endphp
 
     @if($canAccess)
@@ -34,7 +45,7 @@ $currentUser = auth()->user();
     <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }}">
       <a href="{{ $menu['url'] ?? ($menu['route'] ? route($menu['route'], $menu['route_params'] ?? []) : '#') }}"
         class="nav-link {{ $isActive ? 'active' : '' }} {{ $hasChildren ? 'dropdown-toggle' : '' }}"
-        @if($hasChildren) data-bs-toggle="collapse" data-bs-target="#collapse-{{ $menu['id'] }}" aria-expanded="false" @endif
+        @if($hasChildren) data-bs-toggle="collapse" data-bs-target="#collapse-{{ $menu['id'] }}" aria-expanded="{{ $hasActiveChild ? 'true' : 'false' }}" @endif
         @if(!empty($menu['target'])) target="{{ $menu['target'] }}" @endif
         {!! $menu['attributes'] ? implode(' ', array_map(fn($k, $v) => "$k=\"$v\"", array_keys($menu['attributes']), $menu['attributes'])) : '' !!}
         >
@@ -48,7 +59,7 @@ $currentUser = auth()->user();
       </a>
 
       @if($hasChildren)
-      <div class="collapse" id="collapse-{{ $menu['id'] }}">
+      <div class="collapse {{ $hasActiveChild ? 'show' : '' }}" id="collapse-{{ $menu['id'] }}">
         <ul class="nav flex-column ms-3">
           @foreach($menu['children'] as $child)
           @php
@@ -77,19 +88,21 @@ $currentUser = auth()->user();
       @endif
     </li>
     @else
-    <a href="{{ $menu['url'] ?? ($menu['route'] ? route($menu['route'], $menu['route_params'] ?? []) : '#') }}"
-      class="nav-link {{ $isActive ? 'active' : '' }}"
-      @if(!empty($menu['target'])) target="{{ $menu['target'] }}" @endif
-      {!! $menu['attributes'] ? implode(' ', array_map(fn($k, $v) => "$k=\"$v\"", array_keys($menu['attributes']), $menu['attributes'])) : '' !!}
-      >
-      @if(!empty($menu['icon']))
-      <i class="{{ $menu['icon'] }}"></i>
-      @endif
-      <span>{{ $menu['title'] }}</span>
-      @if(!empty($menu['badge']))
-      <span class="badge bg-{{ $menu['badge_type'] ?? 'primary' }} ms-auto">{{ $menu['badge'] }}</span>
-      @endif
-    </a>
+    <li class="nav-item">
+      <a href="{{ $menu['url'] ?? ($menu['route'] ? route($menu['route'], $menu['route_params'] ?? []) : '#') }}"
+        class="nav-link {{ $isActive ? 'active' : '' }}"
+        @if(!empty($menu['target'])) target="{{ $menu['target'] }}" @endif
+        {!! $menu['attributes'] ? implode(' ', array_map(fn($k, $v) => "$k=\"$v\"", array_keys($menu['attributes']), $menu['attributes'])) : '' !!}
+        >
+        @if(!empty($menu['icon']))
+        <i class="{{ $menu['icon'] }}"></i>
+        @endif
+        <span>{{ $menu['title'] }}</span>
+        @if(!empty($menu['badge']))
+        <span class="badge bg-{{ $menu['badge_type'] ?? 'primary' }} ms-auto">{{ $menu['badge'] }}</span>
+        @endif
+      </a>
+    </li>
     @endif
     @endif
     @endforeach
