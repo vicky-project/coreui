@@ -9,7 +9,7 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    {!! file_get_contents(__DIR__ . "../../assets/sass/styles.css"); !!}
+    {!! file_get_contents(module_path("coreui", "resources/assets/sass/styles.css")); !!}
   </style>
 
   @stack('styles')
