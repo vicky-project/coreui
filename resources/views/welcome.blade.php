@@ -100,7 +100,7 @@
     </div>
     <!-- Gold -->
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.gold') }}" class="text-decoration-none">
+      <a href="{{ route('apps.gold-prices') }}" class="text-decoration-none">
         <div class="module-card text-center p-4 h-100">
           <i class="bi bi-gem module-icon"></i>
           <h5 class="mt-3">Gold</h5>
