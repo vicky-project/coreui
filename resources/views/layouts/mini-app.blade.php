@@ -177,7 +177,7 @@
       }
 
       const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}';
-      const links = document.querySelectorAll('a.menu-item'); // Pilih hanya menu-item
+      const links = document.querySelectorAll('a.disabled'); // Pilih hanya menu-item
 
       links.forEach(function(link) {
       if (!link.href || link.href === '#' || link.href === 'javascript:void(0)') return;
