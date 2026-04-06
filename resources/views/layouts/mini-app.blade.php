@@ -160,38 +160,56 @@
       toast.show();
     }
 
-    function appendQuery() {
+    function appendQuery(retryCount = 0) {
       const initData = window.Telegram?.WebApp?.initData || @json(request()->get("initData", ""));
+      const maxRetries = 10;
+      const retryDelay = 200;
+
       if (!initData) {
-        alert("initData not found."+ initData);
+        if (retryCount < maxRetries) {
+          console.warn(`initData not found, retrying (${retryCount+1}/${maxRetries})...`);
+          setTimeout(() => appendQuery(retryCount + 1), retryDelay);
+        } else {
+          console.error("initData tidak tersedia setelah beberapa percobaan.");
+          showToast("Gagal inisialisasi telegram setalah beberapa kali percobaan.", 'danger');
+        }
         return;
-      };
+      }
 
       const token = localStorage.getItem("telegram_token") || '{{ request()->get("token") }}';
+      const links = document.querySelectorAll('a.menu-item'); // Pilih hanya menu-item
 
-      const links = document.querySelectorAll('a');
       links.forEach(function(link) {
+      if (!link.href || link.href === '#' || link.href === 'javascript:void(0)') return;
+
+      try {
       const urlObj = new URL(link.href, window.location.origin);
       urlObj.searchParams.set("initData", initData);
-      urlObj.searchParams.set("token", token);
+      if (token) urlObj.searchParams.set("token", token);
       link.href = urlObj.toString();
-      link.setAttribute("disabled", false);
+      } catch(e) {
+      console.error("Gagal memodifikasi link:", link.href, e);
+      alert("Gagal memodifikasi link menu: " + link.href);
+      }
+
+      // Hapus penghalang klik
       link.classList.remove("disabled");
+      link.removeAttribute("disabled");
+      // Hapus inline style jika ada
+      link.style.pointerEvents = '';
       });
     }
 
-    appendQuery();
 
     // Inisialisasi Telegram WebApp
     const tg = window.Telegram.WebApp;
     tg.expand(); // Memperluas ke layar penuh
     applyTelegramTheme();
-    tg.onEvent('themeChanged', function() {
-    applyTelegramTheme();
-    });
+    tg.onEvent('themeChanged', applyTelegramTheme);
 
     // Beri tahu Telegram bahwa halaman sudah siap
     tg.ready();
+    appendQuery();
 
     document.addEventListener('DOMContentLoaded', function() {
     // Inisialisasi semua toast yang ada di halaman

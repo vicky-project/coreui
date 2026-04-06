@@ -40,6 +40,12 @@ body {
   color: var(--tg-theme-text-color, #000);
 }
 
+a.disabled, a.disabled * {
+  pointer-events: none !important;
+  cursor: default;
+  opacity: 0.6;
+}
+
 /* Animasi dasar */
 @keyframes breathe {
   0% {
