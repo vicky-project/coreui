@@ -54,7 +54,9 @@ Tambahkan kode berikut:
 },
 ```
 
-⚠️ Perhatikan tanda koma (,) setelah kurung kurawal tutup sebelumnya jika Anda menggabungkan dengan konfigurasi "extra" yang sudah ada.
+> [!WARNING]
+> **Perhatikan tanda koma (`,`) pada file `composer.json`.**  
+> Setiap penambahan konfigurasi harus memperhatikan posisi koma agar tidak merusak format JSON. Kesalahan koma akan mengakibatkan error saat menjalankan `composer` atau `php artisan`.
 
 ⚙️ Bagian "config"
 
@@ -89,6 +91,10 @@ Cari kunci "autoload". Di dalam bagian "psr-4", tambahkan baris berikut (jika su
 
 💡 Contoh lengkap setelah ditambahkan:
 "Modules\\": "Modules/"
+
+> [!NOTE]
+> Module ini menggunakan library **[nwidart/laravel-modules](https://laravelmodules.com/)**.  
+> Lihat [dokumentasi resmi](https://laravelmodules.com/docs) untuk informasi lebih lanjut.
 
 4. Perbarui Autoloader Composer
 
