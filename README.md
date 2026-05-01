@@ -1,12 +1,10 @@
-# 📋 Persyaratan Sebelum Memulai
+# Persyaratan Sebelum Memulai
 
-· Proyek Laravel harus sudah ada. Jika belum, silakan buat terlebih dahulu mengikuti dokumentasi resmi Laravel.
-· PHP versi 8.2 atau lebih baru.
-· Composer terinstal di komputer Anda.
+- Proyek Laravel harus sudah ada. Jika belum, silakan buat terlebih dahulu mengikuti dokumentasi resmi Laravel.
+- PHP versi 8.2 atau lebih baru.
+- Composer terinstal di komputer Anda.
 
----
-
-🚀 Langkah-Langkah Instalasi
+# Langkah-Langkah Instalasi
 
 1. Pastikan Proyek Laravel Sudah Siap
 
@@ -132,18 +130,14 @@ php artisan app help
 
 Perintah ini akan menampilkan semua perintah artisan yang tersedia di dalam namespace app, termasuk yang disediakan oleh module.
 
----
-
-🧪 Verifikasi Instalasi
+# Verifikasi Instalasi
 
 Untuk memastikan semuanya berjalan lancar:
 
 1. Coba jalankan php artisan app help – Anda akan melihat daftar perintah.
 2. Coba akses aplikasi Laravel Anda melalui browser. Jika module menambahkan rute atau tampilan, seharusnya sudah tersedia.
 
----
-
-❗ Tips & Pemecahan Masalah
+# Tips & Pemecahan Masalah
 
 | Masalah | Solusi |
 |---------|--------|
@@ -151,9 +145,3 @@ Untuk memastikan semuanya berjalan lancar:
 | `Composer merge-plugin` error | Pastikan plugin `wikimedia/composer-merge-plugin` sudah diizinkan di bagian `allow-plugins`. |
 | Migrasi gagal | Periksa koneksi database di file `.env`. Jalankan `php artisan migrate:fresh` jika ingin memulai ulang. |
 | Perintah `app:install` tidak dikenal | Cek apakah module sudah terinstal dengan benar. Jalankan `composer require` sekali lagi jika perlu. |
-
-📚 Kesimpulan
-
-Dengan mengikuti panduan di atas, Anda berhasil menginstal vicky-project/coreui-module ke dalam proyek Laravel. Module ini memungkinkan Anda menggunakan antarmuka CoreUI dengan mudah. Selamat mencoba!
-
-Jika ada kendala, silakan cek dokumentasi lebih lanjut atau hubungi pengembang module.
