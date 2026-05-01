@@ -1,10 +1,4 @@
-Panduan Instalasi Module vicky-project/coreui-module untuk Laravel
-
-Dokumen ini akan memandu Anda, bahkan yang masih pemula sekalipun, untuk menginstal dan menggunakan module CoreUI pada proyek Laravel Anda. Ikuti langkah-langkah sederhana di bawah ini.
-
----
-
-📋 Persyaratan Sebelum Memulai
+# 📋 Persyaratan Sebelum Memulai
 
 · Proyek Laravel harus sudah ada. Jika belum, silakan buat terlebih dahulu mengikuti dokumentasi resmi Laravel.
 · PHP versi 8.2 atau lebih baru.
