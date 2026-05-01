@@ -90,7 +90,9 @@ Cari kunci "autoload". Di dalam bagian "psr-4", tambahkan baris berikut (jika su
 ```
 
 💡 Contoh lengkap setelah ditambahkan:
+```json
 "Modules\\": "Modules/"
+```
 
 > [!NOTE]
 > Module ini menggunakan library **[nwidart/laravel-modules](https://laravelmodules.com/)**.  
