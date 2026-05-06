@@ -58,6 +58,7 @@ class CoreUIServiceProvider extends ServiceProvider
       \Modules\CoreUI\Console\ClearMenuCacheCommand::class,
       \Modules\CoreUI\Console\ModuleInstall::class,
       \Modules\CoreUI\Console\ScanMenuProvidersCommand::class,
+      \Modules\CoreUI\Console\ViewCommand::class,
     ]);
   }
 
