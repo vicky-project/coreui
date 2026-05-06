@@ -38,6 +38,7 @@
 <div class="container" id="features">
   <h2 class="text-center mb-5">Fitur yang Tersedia</h2>
   <div class="row g-4">
+    @if(Route::has('apps.prayer'))
     <!-- Prayer -->
     <div class="col-sm-6 col-md-4 col-lg-3">
       <a href="{{ route('apps.prayer') }}" class="text-decoration-none">
@@ -50,6 +51,8 @@
         </div>
       </a>
     </div>
+    @endif
+    @if(Route::has('apps.weather'))
     <!-- Weather -->
     <div class="col-sm-6 col-md-4 col-lg-3">
       <a href="{{ route('apps.weather') }}" class="text-decoration-none">
@@ -62,6 +65,8 @@
         </div>
       </a>
     </div>
+    @endif
+    @if(Route::has('apps.hadith.index'))
     <!-- Hadith -->
     <div class="col-sm-6 col-md-4 col-lg-3">
       <a href="{{ route('apps.hadith.index') }}" class="text-decoration-none">
@@ -74,6 +79,8 @@
         </div>
       </a>
     </div>
+    @endif
+    @if(Route::has('apps.quran.index'))
     <!-- Quran -->
     <div class="col-sm-6 col-md-4 col-lg-3">
       <a href="{{ route('apps.quran.index') }}" class="text-decoration-none">
@@ -86,6 +93,8 @@
         </div>
       </a>
     </div>
+    @endif
+    @if(Route::has('apps.swift'))
     <!-- SwiftBank -->
     <div class="col-sm-6 col-md-4 col-lg-3">
       <a href="{{ route('apps.swift') }}" class="text-decoration-none">
@@ -98,6 +107,8 @@
         </div>
       </a>
     </div>
+    @endif
+    @if(Route::has('apps.gold-prices'))
     <!-- Gold -->
     <div class="col-sm-6 col-md-4 col-lg-3">
       <a href="{{ route('apps.gold-prices') }}" class="text-decoration-none">
@@ -110,6 +121,7 @@
         </div>
       </a>
     </div>
+    @endif
   </div>
 </div>
 
