@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\CoreUI\Console;
 
 use Illuminate\Console\Command;
@@ -17,13 +18,15 @@ class ScanMenuProvidersCommand extends Command
     // Clear cache first
     $menuService->clearCache();
 
-    // Scan providers
+    // Scan providers (sekarang mengembalikan Collection berisi array)
     $providers = $menuService->scanMenuProviders();
 
     $this->info("Found {$providers->count()} menu provider(s):");
 
-    foreach ($providers as $name => $provider) {
-      $this->line("- {$name}: " . get_class($provider));
+    foreach ($providers as $name => $providerData) {
+      // $providerData adalah array: ['name', 'class', 'menus', 'config']
+      $className = $providerData['class'] ?? 'unknown';
+      $this->line("- {$name}: {$className}");
     }
 
     $this->info("Menu providers scanned successfully.");
