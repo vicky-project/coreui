@@ -62,6 +62,7 @@ Tambahkan kode berikut:
 > [!WARNING]
 > **Perhatikan tanda koma (`,`) pada file `composer.json`.**  
 > Setiap penambahan konfigurasi harus memperhatikan posisi koma agar tidak merusak format JSON. Kesalahan koma akan mengakibatkan error saat menjalankan `composer` atau `php artisan`.
+> [!WARNING]
 > jika anda menggunakan laravel versi 13 atau diatasnya, ganti `"merge-dev": true` menjadi `"merge-dev": false` agar package dari `require-dev` tidak ikut terdownload. Karena ada beberapa package vendor yang belum mendukung laravel versi 3 atau yang lebih baru. Anda dapat mengembalikan ke true jika semua vendor telah mendukung laravel terbaru.
 
 ⚙️ Bagian "config"
