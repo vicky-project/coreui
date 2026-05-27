@@ -8,6 +8,7 @@ use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Modules\CoreUI\Services\MenuRenderer;
+use Modules\CoreUI\Services\MenuService;
 
 class CoreUIServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,8 @@ class CoreUIServiceProvider extends ServiceProvider
       return "<?php echo \Modules\CoreUI\Services\UIService::renderHook($expression); ?>";
     });
     $this->app->make(MenuRenderer::class)->registerBladeDirectives();
+
+    MenuService::registerAutoloader();
   }
 
   /**
