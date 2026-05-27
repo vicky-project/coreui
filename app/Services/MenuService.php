@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\CoreUI\Services;
 
 use Illuminate\Support\Facades\Cache;
@@ -14,16 +15,15 @@ class MenuService
   const CACHE_TTL = 86400; // 24 jam
 
   /**
-  * Daftarkan autoloader kustom untuk memastikan semua kelas provider dapat ditemukan.
-  * Panggil method ini di ServiceProvider (misal CoreUIServiceProvider).
+  * Daftarkan autoloader kustom untuk memastikan kelas-kelas provider
+  * dapat ditemukan saat proses unserialize (fallback).
   */
   public static function registerAutoloader(): void
   {
     spl_autoload_register(function ($class) {
-      // Hanya tangani kelas dalam namespace Modules\
+      // Hanya tangani kelas di namespace Modules\
       if (str_starts_with($class, 'Modules\\')) {
         $parts = explode('\\', $class);
-        // Struktur: Modules\ModuleName\...
         if (count($parts) >= 3) {
           $moduleName = $parts[1];
           $modulePath = module_path($moduleName);
@@ -46,14 +46,11 @@ class MenuService
   }
 
   /**
-  * Scan all modules for menu providers.
-  * Sekarang cache hanya menyimpan data array, bukan objek.
+  * Scan semua modul untuk mencari menu providers.
+  * Sekarang cache hanya menyimpan array, bukan objek.
   */
   public function scanMenuProviders(): Collection
   {
-    // Hapus cache yang mungkin rusak (jalankan sekali jika perlu)
-    // $this->clearCache();
-
     $providersArray = Cache::remember(static::CACHE_KEY,
       static::CACHE_TTL,
       function () {
@@ -80,14 +77,19 @@ class MenuService
                 $reflection = new ReflectionClass($className);
 
                 if ($reflection->implementsInterface(MenuProvider::class)) {
-                  $provider = app($className);
-                  // Simpan data sebagai array agar aman dari serialisasi
-                  $providers->put($provider->getName(), [
-                    'name' => $provider->getName(),
-                    'class' => $className,
-                    'menus' => $provider->getMenus(),
-                    'config' => $provider->getConfig(),
-                  ]);
+                  try {
+                    $provider = app($className);
+                    $providers->put($provider->getName(), [
+                      'name' => $provider->getName(),
+                      'class' => $className,
+                      'menus' => $provider->getMenus(),
+                      'config' => $provider->getConfig(),
+                    ]);
+                  } catch (\Throwable $e) {
+                    logger()->error("Gagal menginstansiasi provider menu: {$className}", [
+                      'error' => $e->getMessage()
+                    ]);
+                  }
                 }
               }
             }
@@ -99,21 +101,27 @@ class MenuService
             $reflection = new ReflectionClass($menuProviderClass);
 
             if ($reflection->implementsInterface(MenuProvider::class)) {
-              $provider = app($menuProviderClass);
-              $providers->put($provider->getName(), [
-                'name' => $provider->getName(),
-                'class' => $menuProviderClass,
-                'menus' => $provider->getMenus(),
-                'config' => $provider->getConfig(),
-              ]);
+              try {
+                $provider = app($menuProviderClass);
+                $providers->put($provider->getName(), [
+                  'name' => $provider->getName(),
+                  'class' => $menuProviderClass,
+                  'menus' => $provider->getMenus(),
+                  'config' => $provider->getConfig(),
+                ]);
+              } catch (\Throwable $e) {
+                logger()->error("Gagal menginstansiasi provider menu: {$menuProviderClass}", [
+                  'error' => $e->getMessage()
+                ]);
+              }
             }
           }
         }
 
-        return $providers->toArray(); // simpan sebagai array
+        // Simpan sebagai array murni
+        return $providers->toArray();
       });
 
-    // Kembalikan Collection agar kompatibel dengan return type
     return collect($providersArray);
   }
 
@@ -145,7 +153,7 @@ class MenuService
   */
   public function getAllMenus(): array
   {
-    $providersCollection = $this->scanMenuProviders(); // ini sudah collection array
+    $providersCollection = $this->scanMenuProviders();
     $providers = $providersCollection->toArray();
 
     $menus = [
@@ -156,9 +164,9 @@ class MenuService
     ];
 
     foreach ($providers as $key => $providerData) {
-      // providerData adalah array, bukan objek
+      // Validasi data provider
       if (!is_array($providerData) || empty($providerData['menus'])) {
-        logger()->warning("Invalid provider found.", ["key" => $key, "provider" => $providerData]);
+        logger()->warning("Invalid provider data found.", ["key" => $key, "data" => $providerData]);
         continue;
       }
 
@@ -166,17 +174,21 @@ class MenuService
       $providerConfig = $providerData['config'] ?? [];
 
       foreach ($providerMenus as $menu) {
+        // Set default location from provider config if not specified
         if (!isset($menu["location"])) {
           $menu["location"] = $providerConfig["location"] ?? "sidebar";
         }
 
+        // Set default group from provider config if not specified
         if (!isset($menu["group"])) {
           $menu["group"] = $providerConfig["group"] ?? "application";
         }
 
+        // Add provider info
         $menu["provider"] = $providerData['name'];
         $menu["module"] = $providerConfig["module"] ?? null;
 
+        // Add to appropriate location collection
         $location = $menu["location"];
         if (isset($menus[$location])) {
           $menus[$location]->push($menu);
@@ -184,32 +196,38 @@ class MenuService
       }
     }
 
+    // Process and organize menus
     return $this->processMenus($menus);
   }
 
-  // ... method processMenus, organizeMenuHierarchy, getGroupOrder, getMenusByLocation, dll.
-  // TIDAK BERUBAH, cukup salin dari kode asli Anda.
-  // Saya tidak menulis ulang semua karena panjang, tetapi pastikan Anda menyalinnya tanpa perubahan.
-  // Berikut contoh beberapa method yang tetap sama:
-
+  /**
+  * Process and organize menus
+  */
   private function processMenus(array $menus): array
   {
     $processed = [];
 
     foreach ($menus as $location => $locationMenus) {
+      // Group by group first
       $grouped = $locationMenus->groupBy("group");
 
       $processed[$location] = [];
 
       foreach ($grouped as $groupName => $groupMenus) {
+        // Sort by order
         $sorted = $groupMenus->sortBy("order")->values();
+
+        // Organize parent-child relationships
         $organized = $this->organizeMenuHierarchy($sorted);
+
         $processed[$location][$groupName] = $organized;
       }
 
+      // Sort groups by average order
       uksort($processed[$location], function ($a, $b) use ($processed, $location) {
         $orderA = $this->getGroupOrder($processed[$location][$a]);
         $orderB = $this->getGroupOrder($processed[$location][$b]);
+
         return $orderA <=> $orderB;
       });
     }
@@ -217,22 +235,209 @@ class MenuService
     return $processed;
   }
 
+  /**
+  * Organize menu hierarchy (parent-child relationships)
+  */
   private function organizeMenuHierarchy(Collection $menus): Collection
   {
-    // ... sama persis seperti kode Anda ...
+    $itemsById = [];
+    $rootItems = collect();
+
+    // First pass: index all items
+    foreach ($menus as $menu) {
+      $menu["children"] = collect();
+      $itemsById[$menu["id"]] = $menu;
+    }
+
+    // Second pass: build hierarchy
+    foreach ($menus as $menu) {
+      if (isset($menu["parent_id"]) && isset($itemsById[$menu["parent_id"]])) {
+        $itemsById[$menu["parent_id"]]["children"]->push($menu);
+      } else {
+        $rootItems->push($menu);
+      }
+    }
+
+    // Sort children within each parent
+    foreach ($itemsById as &$item) {
+      $item["children"] = $item["children"]->sortBy("order")->values();
+    }
+
+    return $rootItems->sortBy("order")->values();
   }
 
+  /**
+  * Get average order for a group
+  */
   private function getGroupOrder(Collection $menus): int
   {
-    if ($menus->isEmpty()) return 999;
+    if ($menus->isEmpty()) {
+      return 999;
+    }
+
     return (int) $menus->avg("order");
   }
 
-  // ... method lainnya (getMenusByLocation, getSidebarMenus, canAccess, dll.)
-  // Salin seluruhnya dari kode asli tanpa modifikasi
+  /**
+  * Get menus for a specific location
+  */
+  public function getMenusByLocation(string $location, ?string $group = null): array|Collection
+  {
+    $allMenus = $this->getAllMenus();
 
+    if (!isset($allMenus[$location])) {
+      return [];
+    }
+
+    if ($group) {
+      return $allMenus[$location][$group] ?? [];
+    }
+
+    return $allMenus[$location];
+  }
+
+  /**
+  * Get sidebar menus
+  */
+  public function getSidebarMenus(?string $group = null): array|Collection
+  {
+    return $this->getMenusByLocation("sidebar", $group);
+  }
+
+  /**
+  * Get navbar menus
+  */
+  public function getNavbarMenus(): array
+  {
+    return $this->getMenusByLocation("navbar");
+  }
+
+  /**
+  * Check if user can access menu item
+  */
+  public function canAccess(array $menuItem, $user = null): bool
+  {
+    // If no user, check if menu is public
+    if (!auth()->check()) {
+      return empty($menuItem["permission"]) && empty($menuItem["roles"]);
+    }
+
+    // Check permission
+    $user = $user ?? auth()->user();
+    if (!empty($menuItem["permission"]) && !$user->can($menuItem["permission"])) {
+      return false;
+    }
+
+    // Check roles
+    if (!empty($menuItem["roles"])) {
+      $hasRole = false;
+      foreach ($menuItem["roles"] as $role) {
+        if ($user->hasRole($role)) {
+          $hasRole = true;
+          break;
+        }
+      }
+      if (!$hasRole) {
+        return false;
+      }
+    }
+
+    // Check custom conditions
+    if (!empty($menuItem["conditions"])) {
+      foreach ($menuItem["conditions"] as $condition) {
+        if (is_callable($condition) && !call_user_func($condition, $user)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
+  * Filter menus by user permissions
+  */
+  public function filterMenusByUser(array|Collection $menus, $user = null): array
+  {
+    $filtered = [];
+    $user = $user ?? auth()->user();
+
+    foreach ($menus as $key => $menu) {
+      if ($menu["type"] === "group") {
+        $filteredItems = [];
+        foreach ($menu["items"] as $item) {
+          if ($this->canAccess($item, $user)) {
+            $filteredItems[] = $this->filterMenuItemChildren($item, $user);
+          }
+        }
+
+        if (!empty($filteredItems)) {
+          $menu["items"] = $filteredItems;
+          $filtered[$key] = $menu;
+        }
+      } elseif ($this->canAccess($menu, $user)) {
+        $filtered[$key] = $this->filterMenuItemChildren($menu, $user);
+      }
+    }
+
+    return $filtered;
+  }
+
+  /**
+  * Filter menu item children by user permissions
+  */
+  private function filterMenuItemChildren(array $menuItem, $user): array
+  {
+    if (!empty($menuItem["children"])) {
+      $filteredChildren = [];
+      foreach ($menuItem["children"] as $child) {
+        if ($this->canAccess($child, $user)) {
+          $filteredChildren[] = $this->filterMenuItemChildren($child, $user);
+        }
+      }
+      $menuItem["children"] = $filteredChildren;
+    }
+
+    return $menuItem;
+  }
+
+  /**
+  * Clear menu cache
+  */
   public function clearCache(): void
   {
     Cache::forget(static::CACHE_KEY);
+  }
+
+  /**
+  * Check if menu item is active
+  */
+  public function isActive(array $menuItem): bool
+  {
+    $currentUrl = request()->url();
+
+    // Check by route name
+    if (!empty($menuItem['route']) && request()->routeIs($menuItem['route'])) {
+      return true;
+    }
+
+    // Check by URL
+    if (!empty($menuItem["url"])) {
+      $menuUrl = url($menuItem["url"]);
+      if ($menuUrl === $currentUrl || $menuUrl === request()->fullUrl()) {
+        return true;
+      }
+    }
+
+    // Check children
+    if (!empty($menuItem["children"])) {
+      foreach ($menuItem["children"] as $child) {
+        if ($this->isActive($child)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
