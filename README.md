@@ -2,7 +2,7 @@
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-red)
 ![healthchecks.io](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fbadge%2F94af4d66-8352-4c4d-96fa-f288c0%2FW9MqTZ9y.shields)
 [![Latest Stable Version](https://poser.pugx.org/vicky-project/coreui-module/v/stable)](https://packagist.org/packages/vicky-project/coreui-module)
-![GitHub last commit](https://img.shields.io/github/last-commit/vicky-project/coreui/main)
+![GitHub last commit](https://img.shields.io/github/last-commit/vicky-project/coreui)
 [![Total Downloads](https://poser.pugx.org/vicky-project/coreui-module/downloads)](https://packagist.org/packages/vicky-project/coreui-module)
 [![License](https://poser.pugx.org/vicky-project/coreui-module/license)](https://packagist.org/packages/vicky-project/coreui-module)
 
