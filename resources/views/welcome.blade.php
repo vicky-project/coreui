@@ -29,7 +29,6 @@
     color: white;
   }
 
-  /* Overlay gelap */
   body::before {
     content: '';
     position: absolute;
@@ -47,7 +46,6 @@
     justify-content: space-between;
   }
 
-  /* Navigasi kanan atas */
   .nav {
     display: flex;
     justify-content: flex-end;
@@ -71,7 +69,6 @@
     transform: translateY(-1px);
   }
 
-  /* Quotes di tengah */
   .quote-container {
     flex: 1;
     display: flex;
@@ -99,12 +96,10 @@
     margin-top: 0.75rem;
     font-size: 0.9em;
     color: #d1d5db;
-    /* abu-abu terang */
     font-weight: 400;
     font-style: normal;
   }
 
-  /* Jam digital di kiri bawah */
   .clock-container {
     position: absolute;
     bottom: 2rem;
@@ -128,7 +123,6 @@
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   }
 
-  /* Responsif tambahan untuk layar kecil */
   @media (max-width: 640px) {
     .nav {
       padding: 1rem;
@@ -146,7 +140,6 @@
 </head>
 <body>
 <div class="content">
-<!-- Navigasi -->
 <div class="nav">
 @auth
 <a href="{{ url('/dashboard') }}">Dashboard</a>
@@ -160,21 +153,28 @@
 @endauth
 </div>
 
-<!-- Quotes inspiratif Laravel dengan format bold + abu-abu -->
 <div class="quote-container">
 @php
-// Ambil quote dan author secara terpisah
-$random = \Illuminate\Foundation\Inspiring::quotes()->random();
-$quoteText = $random['quote'];
-$quoteAuthor = $random['author'];
+// Ambil string quote acak dari koleksi
+$fullQuote = \Illuminate\Foundation\Inspiring::quotes()->random();
+
+// Pisahkan teks dan penulis dengan pemisah ' - '
+// Gunakan limit 2 agar hanya terbelah menjadi dua bagian
+$parts = explode(' - ', $fullQuote, 2);
+$quoteText = $parts[0] ?? '';
+$quoteAuthor = $parts[1] ?? '';
+
+// Bersihkan tanda kutip yang mungkin sudah ada
+$quoteText = trim($quoteText, "“”\"'");
 @endphp
 <blockquote>
 <span class="quote-text">&#8220;{{ $quoteText }}&#8221;</span>
+@if($quoteAuthor)
 <span class="quote-author">&#8212; {{ $quoteAuthor }}</span>
+@endif
 </blockquote>
 </div>
 
-<!-- Jam digital & tanggal -->
 <div class="clock-container">
 <div class="time" id="clock">
 --:--:--
@@ -188,14 +188,11 @@ $quoteAuthor = $random['author'];
 <script>
 function updateClock() {
 const now = new Date();
-
-// Jam 24 jam
 const hours = String(now.getHours()).padStart(2, '0');
 const minutes = String(now.getMinutes()).padStart(2, '0');
 const seconds = String(now.getSeconds()).padStart(2, '0');
 document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
 
-// Tanggal dalam bahasa Indonesia
 const options = {
 weekday: 'long',
 year: 'numeric',
