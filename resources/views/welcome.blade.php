@@ -178,7 +178,7 @@
 <div class="content">
 <div class="nav">
 @auth
-<a href="{{ url('/apps_dashboard') }}">Dashboard</a>
+<a href="{{ url('/apps/dashboard') }}">Dashboard</a>
 @else
 @if(Route::has('login'))
 <a href="{{ route('login') }}">Log in</a>
