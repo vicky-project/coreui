@@ -69,12 +69,14 @@
     transform: translateY(-1px);
   }
 
+  /* Quotes digeser ke atas dengan padding bawah cukup besar */
   .quote-container {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 2rem 10rem 2rem;
+    padding: 2rem 2rem 8rem 2rem;
+    /* padding bawah sedikit dikurangi dari 10rem */
     text-align: center;
   }
 
@@ -100,9 +102,11 @@
     font-style: normal;
   }
 
+  /* Jam dan tanggal - sekarang dengan jarak ekstra dari bawah */
   .clock-container {
     position: absolute;
-    bottom: 2rem;
+    bottom: 4rem;
+    /* sebelumnya 2rem, sekarang lebih longgar */
     left: 2rem;
     display: flex;
     flex-direction: column;
@@ -128,14 +132,15 @@
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.6);
   }
 
-  /* Responsif: ukuran jam dan tanggal diperkecil pada layar kecil */
+  /* Responsif untuk tablet dan ponsel */
   @media (max-width: 640px) {
     .nav {
       padding: 1rem;
       gap: 0.8rem;
     }
     .clock-container {
-      bottom: 1.5rem;
+      bottom: 2.5rem;
+      /* tetap ada ruang, tapi tidak sebesar desktop */
       left: 1.5rem;
       gap: 0.3rem;
     }
@@ -146,11 +151,12 @@
       font-size: clamp(0.9rem, 3vw, 1.2rem);
     }
     .quote-container {
-      padding: 1rem 1rem 7rem 1rem;
+      padding: 1rem 1rem 6rem 1rem;
+      /* padding bawah lebih kecil */
     }
   }
 
-  /* Untuk layar sangat kecil (misal ponsel kecil) */
+  /* Untuk layar sangat kecil */
   @media (max-width: 380px) {
     .time {
       font-size: clamp(2rem, 10vw, 3rem);
@@ -159,11 +165,11 @@
       font-size: 0.8rem;
     }
     .clock-container {
-      bottom: 1rem;
+      bottom: 2rem;
       left: 1rem;
     }
     .quote-container {
-      padding: 0.5rem 0.5rem 6rem 0.5rem;
+      padding: 0.5rem 0.5rem 5rem 0.5rem;
     }
   }
 </style>
@@ -172,7 +178,7 @@
 <div class="content">
 <div class="nav">
 @auth
-<a href="{{ url('/apps/dashboard') }}">Dashboard</a>
+<a href="{{ url('/apps_dashboard') }}">Dashboard</a>
 @else
 @if(Route::has('login'))
 <a href="{{ route('login') }}">Log in</a>
