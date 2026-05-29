@@ -100,10 +100,18 @@
     font-style: normal;
   }
 
+  /* Kontainer jam & tanggal - menggunakan flex agar pasti tersusun vertikal */
   .clock-container {
     position: absolute;
     bottom: 2rem;
     left: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    /* Jarak antara jam dan tanggal */
+    z-index: 3;
+    /* Pastikan di atas overlay */
     user-select: none;
   }
 
@@ -111,16 +119,19 @@
     font-size: clamp(4rem, 15vw, 10rem);
     font-weight: 600;
     line-height: 1;
-    text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0,0,0,0.5);
     letter-spacing: 0.02em;
   }
 
   .date {
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    /* sedikit lebih besar */
     font-weight: 400;
-    margin-top: 0.5rem;
-    opacity: 0.85;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    line-height: 1.2;
+    color: #ffffff;
+    /* putih penuh */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.6);
+    /* tidak ada opacity */
   }
 
   @media (max-width: 640px) {
@@ -142,7 +153,7 @@
 <div class="content">
 <div class="nav">
 @auth
-<a href="{{ url('/dashboard') }}">Dashboard</a>
+<a href="{{ url('/apps/dashboard') }}">Dashboard</a>
 @else
 @if(Route::has('login'))
 <a href="{{ route('login') }}">Log in</a>
@@ -155,16 +166,10 @@
 
 <div class="quote-container">
 @php
-// Ambil string quote acak dari koleksi
 $fullQuote = \Illuminate\Foundation\Inspiring::quotes()->random();
-
-// Pisahkan teks dan penulis dengan pemisah ' - '
-// Gunakan limit 2 agar hanya terbelah menjadi dua bagian
 $parts = explode(' - ', $fullQuote, 2);
 $quoteText = $parts[0] ?? '';
 $quoteAuthor = $parts[1] ?? '';
-
-// Bersihkan tanda kutip yang mungkin sudah ada
 $quoteText = trim($quoteText, "“”\"'");
 @endphp
 <blockquote>
