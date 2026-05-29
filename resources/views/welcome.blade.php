@@ -69,12 +69,14 @@
     transform: translateY(-1px);
   }
 
+  /* Quotes di tengah, tetapi digeser ke atas dengan padding bawah yang besar */
   .quote-container {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 2rem 2rem 10rem 2rem;
+    /* padding-bottom diperbesar agar tidak menutupi clock */
     text-align: center;
   }
 
@@ -100,7 +102,6 @@
     font-style: normal;
   }
 
-  /* Kontainer jam & tanggal - menggunakan flex agar pasti tersusun vertikal */
   .clock-container {
     position: absolute;
     bottom: 2rem;
@@ -109,9 +110,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
-    /* Jarak antara jam dan tanggal */
     z-index: 3;
-    /* Pastikan di atas overlay */
     user-select: none;
   }
 
@@ -125,13 +124,10 @@
 
   .date {
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    /* sedikit lebih besar */
     font-weight: 400;
     line-height: 1.2;
     color: #ffffff;
-    /* putih penuh */
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.6);
-    /* tidak ada opacity */
   }
 
   @media (max-width: 640px) {
@@ -144,7 +140,8 @@
       left: 1.5rem;
     }
     .quote-container {
-      padding: 1rem;
+      padding: 1rem 1rem 8rem 1rem;
+      /* padding bawah tetap besar di mobile */
     }
   }
 </style>
