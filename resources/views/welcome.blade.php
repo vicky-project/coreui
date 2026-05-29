@@ -99,34 +99,41 @@
     font-style: normal;
   }
 
+  /* Kontainer Jam & Tanggal */
   .clock-container {
     position: absolute;
     bottom: 4rem;
+    /* Menjaga posisi bawah tetap konisten */
     left: 2rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.8rem;
-    /* DIPERBESAR agar ada jarak aman antara jam dan tanggal */
+    gap: 0.2rem;
+    /* Gap kecil karena tanggal di atas tidak terpengaruh descender font jam */
     z-index: 3;
     user-select: none;
+  }
+
+  .date {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 500;
+    /* Sedikit ditebalkan agar kontras sebagai header */
+    line-height: 1.2;
+    color: #e5e7eb;
+    /* Warna abu-abu terang yang elegan */
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+    /* Membuat tampilan tanggal lebih rapi di atas jam */
+    letter-spacing: 0.05em;
   }
 
   .time {
     font-size: clamp(4rem, 15vw, 10rem);
     font-weight: 600;
-    line-height: 1.1;
-    /* DIUBAH dari 1 ke 1.1 agar font besar tidak memotong elemen di bawahnya */
+    line-height: 0.95;
+    /* Dioptimalkan agar pas di bawah tanggal */
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0,0,0,0.5);
     letter-spacing: 0.02em;
-  }
-
-  .date {
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-    font-weight: 400;
-    line-height: 1.2;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.6);
   }
 
   /* Responsif untuk tablet dan ponsel */
@@ -138,14 +145,13 @@
     .clock-container {
       bottom: 2.5rem;
       left: 1.5rem;
-      gap: 0.6rem;
-      /* DIUBAH dari 0.3rem agar tetap ada ruang pemisah di mobile */
+      gap: 0.1rem;
     }
     .time {
       font-size: clamp(2.5rem, 12vw, 4rem);
     }
     .date {
-      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      font-size: clamp(0.85rem, 3vw, 1.1rem);
     }
     .quote-container {
       padding: 1rem 1rem 6rem 1rem;
@@ -154,18 +160,15 @@
 
   /* Untuk layar sangat kecil */
   @media (max-width: 380px) {
+    .clock-container {
+      bottom: 2rem;
+      left: 1rem;
+    }
     .time {
       font-size: clamp(2rem, 10vw, 3rem);
     }
     .date {
-      font-size: 0.85rem;
-      /* DIBESARKAN SEDIKIT agar tetap terbaca jelas */
-    }
-    .clock-container {
-      bottom: 2rem;
-      left: 1rem;
-      gap: 0.4rem;
-      /* DITAMBAHKAN secara eksplisit untuk mencegah tanggal tersembunyi */
+      font-size: 0.8rem;
     }
     .quote-container {
       padding: 0.5rem 0.5rem 5rem 0.5rem;
@@ -205,11 +208,11 @@ $quoteText = trim($quoteText, "“”\"'");
 </div>
 
 <div class="clock-container">
-<div class="time" id="clock">
---:--:--
-</div>
 <div class="date" id="date">
 ---
+</div>
+<div class="time" id="clock">
+--:--:--
 </div>
 </div>
 </div>
