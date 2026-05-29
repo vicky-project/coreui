@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name', 'Laravel') }}</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
@@ -69,14 +68,12 @@
     transform: translateY(-1px);
   }
 
-  /* Quotes digeser ke atas dengan padding bawah cukup besar */
   .quote-container {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem 2rem 8rem 2rem;
-    /* padding bawah sedikit dikurangi dari 10rem */
     text-align: center;
   }
 
@@ -102,16 +99,15 @@
     font-style: normal;
   }
 
-  /* Jam dan tanggal - sekarang dengan jarak ekstra dari bawah */
   .clock-container {
     position: absolute;
     bottom: 4rem;
-    /* sebelumnya 2rem, sekarang lebih longgar */
     left: 2rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.8rem;
+    /* DIPERBESAR agar ada jarak aman antara jam dan tanggal */
     z-index: 3;
     user-select: none;
   }
@@ -119,7 +115,8 @@
   .time {
     font-size: clamp(4rem, 15vw, 10rem);
     font-weight: 600;
-    line-height: 1;
+    line-height: 1.1;
+    /* DIUBAH dari 1 ke 1.1 agar font besar tidak memotong elemen di bawahnya */
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0,0,0,0.5);
     letter-spacing: 0.02em;
   }
@@ -140,9 +137,9 @@
     }
     .clock-container {
       bottom: 2.5rem;
-      /* tetap ada ruang, tapi tidak sebesar desktop */
       left: 1.5rem;
-      gap: 0.3rem;
+      gap: 0.6rem;
+      /* DIUBAH dari 0.3rem agar tetap ada ruang pemisah di mobile */
     }
     .time {
       font-size: clamp(2.5rem, 12vw, 4rem);
@@ -152,7 +149,6 @@
     }
     .quote-container {
       padding: 1rem 1rem 6rem 1rem;
-      /* padding bawah lebih kecil */
     }
   }
 
@@ -162,11 +158,14 @@
       font-size: clamp(2rem, 10vw, 3rem);
     }
     .date {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
+      /* DIBESARKAN SEDIKIT agar tetap terbaca jelas */
     }
     .clock-container {
       bottom: 2rem;
       left: 1rem;
+      gap: 0.4rem;
+      /* DITAMBAHKAN secara eksplisit untuk mencegah tanggal tersembunyi */
     }
     .quote-container {
       padding: 0.5rem 0.5rem 5rem 0.5rem;
