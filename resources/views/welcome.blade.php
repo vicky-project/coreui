@@ -69,14 +69,12 @@
     transform: translateY(-1px);
   }
 
-  /* Quotes di tengah, tetapi digeser ke atas dengan padding bawah yang besar */
   .quote-container {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem 2rem 10rem 2rem;
-    /* padding-bottom diperbesar agar tidak menutupi clock */
     text-align: center;
   }
 
@@ -130,6 +128,7 @@
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.6);
   }
 
+  /* Responsif: ukuran jam dan tanggal diperkecil pada layar kecil */
   @media (max-width: 640px) {
     .nav {
       padding: 1rem;
@@ -138,10 +137,33 @@
     .clock-container {
       bottom: 1.5rem;
       left: 1.5rem;
+      gap: 0.3rem;
+    }
+    .time {
+      font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+    .date {
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
     }
     .quote-container {
-      padding: 1rem 1rem 8rem 1rem;
-      /* padding bawah tetap besar di mobile */
+      padding: 1rem 1rem 7rem 1rem;
+    }
+  }
+
+  /* Untuk layar sangat kecil (misal ponsel kecil) */
+  @media (max-width: 380px) {
+    .time {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+    .date {
+      font-size: 0.8rem;
+    }
+    .clock-container {
+      bottom: 1rem;
+      left: 1rem;
+    }
+    .quote-container {
+      padding: 0.5rem 0.5rem 6rem 0.5rem;
     }
   }
 </style>
