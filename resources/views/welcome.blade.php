@@ -164,8 +164,7 @@
 <div class="quote-container">
 @php
 // Ambil quote dan author secara terpisah
-$quotes = \Illuminate\Foundation\Inspiring::quotes();
-$random = $quotes[array_rand($quotes)];
+$random = \Illuminate\Foundation\Inspiring::quotes()->random();
 $quoteText = $random['quote'];
 $quoteAuthor = $random['author'];
 @endphp
