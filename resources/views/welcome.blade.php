@@ -1,211 +1,193 @@
-@extends('coreui::layouts.public')
-@section('title', 'Selamat Datang di VickyServer')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ config('app.name', 'Laravel') }}</title>
 
-@section('content')
-<!-- Hero Section -->
-<div class="hero text-center mb-5">
-  <div class="container">
-    <h1>Layanan Praktis untuk Keseharian Anda</h1>
-    <p class="lead mb-4">
-      Dari kebutuhan ibadah hingga informasi terkini, VickyServer hadir dengan fitur siap pakai. Nikmati pengalaman seamless di web maupun Telegram Mini App.
-    </p>
-    @guest
-    <a href="{{ route('register') }}" class="btn btn-light btn-lg px-5 me-2">Mulai Sekarang</a>
-    <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg px-5">Masuk</a>
-    @else
-    <a href="{{ route('apps.index') }}" class="btn btn-light btn-lg px-5">Dashboard</a>
-    @endguest
-  </div>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Figtree', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+  }
+
+  /* Overlay gelap */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Navigasi kanan atas */
+  .nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+  }
+
+  /* Quotes di tengah */
+  .quote-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  blockquote {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 400;
+    max-width: 700px;
+    line-height: 1.6;
+    opacity: 0.9;
+    font-style: italic;
+  }
+
+  /* Jam digital di kiri bawah */
+  .clock-container {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    user-select: none;
+  }
+
+  .time {
+    font-size: clamp(4rem, 15vw, 10rem);
+    font-weight: 600;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    letter-spacing: 0.02em;
+  }
+
+  .date {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 400;
+    margin-top: 0.5rem;
+    opacity: 0.85;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Responsif tambahan untuk layar kecil */
+  @media (max-width: 640px) {
+    .nav {
+      padding: 1rem;
+      gap: 0.8rem;
+    }
+    .clock-container {
+      bottom: 1.5rem;
+      left: 1.5rem;
+    }
+    .quote-container {
+      padding: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="content">
+<!-- Navigasi -->
+<div class="nav">
+@auth
+<a href="{{ url('/dashboard') }}">Dashboard</a>
+@else
+@if(Route::has('login'))
+<a href="{{ route('login') }}">Log in</a>
+@endif
+@if (Route::has('register'))
+<a href="{{ route('register') }}">Register</a>
+@endif
+@endauth
 </div>
 
-<!-- Preview Telegram Mini App -->
-<div class="container mb-5 text-center">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-          <img src="{{ asset('images/preview-app.webp') }}" alt="VickyServer Mini App Preview" class="img-fluid rounded-4" style="max-width: 100%;">
-          <div class="p-3 bg-light rounded-bottom">
-            <i class="bi bi-telegram me-2"></i> Buka Mini App Telegram — akses fitur tanpa login
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Quotes inspiratif Laravel -->
+<div class="quote-container">
+<blockquote>
+{{ \Illuminate\Foundation\Inspiring::quote() }}
+</blockquote>
 </div>
 
-<!-- Grid Fitur -->
-<div class="container" id="features">
-  <h2 class="text-center mb-5">Fitur yang Tersedia</h2>
-  <div class="row g-4">
-    @if(Route::has('apps.prayer'))
-    <!-- Prayer -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.prayer') }}" class="text-decoration-none">
-        <div class="module-card text-center p-4 h-100">
-          <i class="bi bi-moon-stars module-icon"></i>
-          <h5 class="mt-3">Prayer</h5>
-          <p class="text-muted small">
-            Jadwal sholat, arah kiblat, dan pengingat ibadah harian.
-          </p>
-        </div>
-      </a>
-    </div>
-    @endif
-    @if(Route::has('apps.weather'))
-    <!-- Weather -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.weather') }}" class="text-decoration-none">
-        <div class="module-card text-center p-4 h-100">
-          <i class="bi bi-cloud-sun module-icon"></i>
-          <h5 class="mt-3">Weather</h5>
-          <p class="text-muted small">
-            Cuaca real-time, ramalan 7 hari, dan peringatan cuaca ekstrem.
-          </p>
-        </div>
-      </a>
-    </div>
-    @endif
-    @if(Route::has('apps.hadith.index'))
-    <!-- Hadith -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.hadith.index') }}" class="text-decoration-none">
-        <div class="module-card text-center p-4 h-100">
-          <i class="bi bi-chat-quote module-icon"></i>
-          <h5 class="mt-3">Hadith</h5>
-          <p class="text-muted small">
-            Kumpulan hadits shahih dengan pencarian dan kategori.
-          </p>
-        </div>
-      </a>
-    </div>
-    @endif
-    @if(Route::has('apps.quran.index'))
-    <!-- Quran -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.quran.index') }}" class="text-decoration-none">
-        <div class="module-card text-center p-4 h-100">
-          <i class="bi bi-book module-icon"></i>
-          <h5 class="mt-3">Quran</h5>
-          <p class="text-muted small">
-            Baca Al-Qur'an dengan terjemahan, tafsir, dan audio murottal.
-          </p>
-        </div>
-      </a>
-    </div>
-    @endif
-    @if(Route::has('apps.swift'))
-    <!-- SwiftBank -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.swift') }}" class="text-decoration-none">
-        <div class="module-card text-center p-4 h-100">
-          <i class="bi bi-bank2 module-icon"></i>
-          <h5 class="mt-3">SwiftBank</h5>
-          <p class="text-muted small">
-            Informasi kode bank dan transfer antar bank dengan mudah.
-          </p>
-        </div>
-      </a>
-    </div>
-    @endif
-    @if(Route::has('apps.gold-prices'))
-    <!-- Gold -->
-    <div class="col-sm-6 col-md-4 col-lg-3">
-      <a href="{{ route('apps.gold-prices') }}" class="text-decoration-none">
-        <div class="module-card text-center p-4 h-100">
-          <i class="bi bi-gem module-icon"></i>
-          <h5 class="mt-3">Gold</h5>
-          <p class="text-muted small">
-            Harga emas terkini, grafik, dan analisis pergerakan.
-          </p>
-        </div>
-      </a>
-    </div>
-    @endif
-  </div>
+<!-- Jam digital & tanggal -->
+<div class="clock-container">
+<div class="time" id="clock">
+--:--:--
+</div>
+<div class="date" id="date">
+---
+</div>
+</div>
 </div>
 
-<!-- Dua Cara Akses -->
-<div class="container mt-5" id="telegram">
-  <div class="row align-items-center">
-    <div class="col-md-6">
-      <h3>Akses Melalui Web atau Telegram Mini App</h3>
-      <ul class="list-unstyled mt-3">
-        <li class="mb-3"><i class="bi bi-globe2 text-primary fs-4 me-2"></i> <strong>Website</strong> — Login untuk mengelola semua fitur dan pengaturan.</li>
-        <li class="mb-3"><i class="bi bi-telegram text-primary fs-4 me-2"></i> <strong>Telegram Mini App</strong> — Cukup buka bot <a href="https://t.me/vickyserver_bot" target="_blank">@vickyserver_bot</a>. Nikmati semua fitur tanpa perlu login.</li>
-      </ul>
-      <a href="https://t.me/vickyserver_bot" class="btn btn-telegram mt-2" target="_blank">
-        <i class="bi bi-telegram me-2"></i> Buka di Telegram
-      </a>
-    </div>
-    <div class="col-md-6 text-center">
-      <i class="bi bi-phone-fill" style="font-size: 7rem; color: #667eea;"></i>
-      <i class="bi bi-laptop" style="font-size: 7rem; color: #764ba2; margin-left: -20px;"></i>
-    </div>
-  </div>
-</div>
+<script>
+function updateClock() {
+const now = new Date();
 
-<!-- Tentang Aplikasi -->
-<div class="container mt-5" id="about">
-  <div class="row align-items-center">
-    <div class="col-md-6">
-      <h3>Mengapa VickyServer?</h3>
-      <p class="text-muted">
-        VickyServer dirancang untuk membantu Anda menjalani hari dengan lebih mudah. Mulai dari kebutuhan spiritual (jadwal sholat, Al-Qur'an, hadits), informasi cuaca, hingga keperluan finansial (SwiftBank dan harga emas), semuanya tersedia dalam satu platform.
-        </p>
-        <p class="text-muted">
-        Semua fitur dapat diakses secara gratis melalui website maupun Telegram Mini App, sehingga Anda bebas memilih cara yang paling nyaman. Tidak perlu registrasi untuk menggunakan versi Telegram – cukup buka bot dan nikmati layanannya.
-        </p>
-        </div>
-        <div class="col-md-6 text-center">
-        <i class="bi bi-layers" style="font-size: 8rem; color: #667eea;"></i>
-        </div>
-        </div>
-        </div>
-        @endsection
+// Jam 24 jam
+const hours = String(now.getHours()).padStart(2, '0');
+const minutes = String(now.getMinutes()).padStart(2, '0');
+const seconds = String(now.getSeconds()).padStart(2, '0');
+document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
 
-        @push('styles')
-        <style>
-        .hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 5rem 0;
-        border-radius: 0 0 2rem 2rem;
-        }
-        .hero h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        }
-        .module-card {
-        background: white;
-        border-radius: 1rem;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        border: 1px solid rgba(0,0,0,0.05);
-        }
-        .module-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        border-color: #667eea;
-        }
-        .module-icon {
-        font-size: 2.5rem;
-        color: #667eea;
-        }
-        .btn-telegram {
-        background-color: #0088cc;
-        color: white;
-        border-radius: 2rem;
-        padding: 0.5rem 1.5rem;
-        }
-        .btn-telegram:hover {
-        background-color: #006699;
-        color: white;
-        }
-        @media (max-width: 768px) {
-        .hero h1 { font-size: 1.8rem; }
-        .module-card { padding: 1rem; }
-        }
-        </style>
-        @endpush
+// Tanggal dalam bahasa Indonesia
+const options = {
+weekday: 'long',
+year: 'numeric',
+month: 'long',
+day: 'numeric'
+};
+const dateString = now.toLocaleDateString('id-ID', options);
+document.getElementById('date').textContent = dateString;
+}
+
+// Update setiap detik
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
