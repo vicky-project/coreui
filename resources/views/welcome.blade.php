@@ -68,6 +68,7 @@
     transform: translateY(-1px);
   }
 
+  /* Quotes digeser ke atas dengan padding bawah cukup besar */
   .quote-container {
     flex: 1;
     display: flex;
@@ -99,41 +100,41 @@
     font-style: normal;
   }
 
-  /* Kontainer Jam & Tanggal */
+  /* Kontainer Jam dan tanggal - absolut dari bawah, membiarkannya tumbuh ke atas */
   .clock-container {
     position: absolute;
     bottom: 4rem;
-    /* Menjaga posisi bawah tetap konisten */
+    /* Menjaga posisi bawah tetap sama */
     left: 2rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.2rem;
-    /* Gap kecil karena tanggal di atas tidak terpengaruh descender font jam */
+    gap: 0.8rem;
+    /* Jarak yang lebih baik antar tanggal dan jam */
     z-index: 3;
     user-select: none;
+    padding-bottom: 0.5rem;
+    /* Memberikan sedikit ruang di bawah elemen terakhir */
   }
 
   .date {
-    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-    font-weight: 500;
-    /* Sedikit ditebalkan agar kontras sebagai header */
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 400;
     line-height: 1.2;
-    color: #e5e7eb;
-    /* Warna abu-abu terang yang elegan */
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-    text-transform: uppercase;
-    /* Membuat tampilan tanggal lebih rapi di atas jam */
-    letter-spacing: 0.05em;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.6);
   }
 
   .time {
-    font-size: clamp(4rem, 15vw, 10rem);
+    /* Sedikit menyesuaikan clamp agar lebih aman di semua layar */
+    font-size: clamp(3.5rem, 12vw, 9rem);
     font-weight: 600;
-    line-height: 0.95;
-    /* Dioptimalkan agar pas di bawah tanggal */
+    line-height: 1.2;
+    /* DITINGKATKAN untuk mencegah 'tenggelam' atau terpotong */
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0,0,0,0.5);
     letter-spacing: 0.02em;
+    margin-top: -0.2rem;
+    /* Menarik jam sedikit ke atas agar lebih rapat dengan tanggal di atasnya */
   }
 
   /* Responsif untuk tablet dan ponsel */
@@ -145,13 +146,15 @@
     .clock-container {
       bottom: 2.5rem;
       left: 1.5rem;
-      gap: 0.1rem;
+      gap: 0.6rem;
+      padding-bottom: 0.3rem;
     }
     .time {
-      font-size: clamp(2.5rem, 12vw, 4rem);
+      font-size: clamp(2.5rem, 10vw, 3.5rem);
+      /* Lebih aman pada ukuran mobile */
     }
     .date {
-      font-size: clamp(0.85rem, 3vw, 1.1rem);
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
     }
     .quote-container {
       padding: 1rem 1rem 6rem 1rem;
@@ -163,12 +166,13 @@
     .clock-container {
       bottom: 2rem;
       left: 1rem;
+      gap: 0.4rem;
     }
     .time {
-      font-size: clamp(2rem, 10vw, 3rem);
+      font-size: clamp(2rem, 9vw, 2.8rem);
     }
     .date {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
     .quote-container {
       padding: 0.5rem 0.5rem 5rem 0.5rem;
