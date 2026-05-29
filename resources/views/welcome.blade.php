@@ -83,11 +83,25 @@
 
   blockquote {
     font-size: clamp(1.2rem, 3vw, 1.8rem);
-    font-weight: 400;
     max-width: 700px;
     line-height: 1.6;
     opacity: 0.9;
+    font-weight: 400;
+  }
+
+  .quote-text {
+    font-weight: 600;
     font-style: italic;
+  }
+
+  .quote-author {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.9em;
+    color: #d1d5db;
+    /* abu-abu terang */
+    font-weight: 400;
+    font-style: normal;
   }
 
   /* Jam digital di kiri bawah */
@@ -146,10 +160,18 @@
 @endauth
 </div>
 
-<!-- Quotes inspiratif Laravel -->
+<!-- Quotes inspiratif Laravel dengan format bold + abu-abu -->
 <div class="quote-container">
+@php
+// Ambil quote dan author secara terpisah
+$quotes = \Illuminate\Foundation\Inspiring::quotes();
+$random = $quotes[array_rand($quotes)];
+$quoteText = $random['quote'];
+$quoteAuthor = $random['author'];
+@endphp
 <blockquote>
-{{ \Illuminate\Foundation\Inspiring::quote() }}
+<span class="quote-text">&#8220;{{ $quoteText }}&#8221;</span>
+<span class="quote-author">&#8212; {{ $quoteAuthor }}</span>
 </blockquote>
 </div>
 
@@ -185,7 +207,6 @@ const dateString = now.toLocaleDateString('id-ID', options);
 document.getElementById('date').textContent = dateString;
 }
 
-// Update setiap detik
 updateClock();
 setInterval(updateClock, 1000);
 </script>
