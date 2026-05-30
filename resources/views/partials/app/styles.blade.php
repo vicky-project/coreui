@@ -1,8 +1,9 @@
 <style>
+  /* ===== GLOBAL ===== */
   body {
     font-size: 14px;
     line-height: 1.5;
-    /* Latar gradien lembut selaras dengan navbar */
+    /* Latar gradien lembut */
     background: linear-gradient(145deg, #f9faff 0%, #f0f2f5 100%);
     color: #212529;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,7 +12,7 @@
     flex-direction: column;
     }
 
-    /* Dark mode untuk web biasa */
+    /* Dark mode (tanpa variabel Telegram) */
     body[data-bs-theme="dark"] {
     background: linear-gradient(145deg, #1a202c 0%, #2d3748 100%);
     color: #e9ecef;
@@ -283,51 +284,88 @@
     }
     }
 
-    /* ===== TELEGRAM MINI APP ADAPTATION ===== */
-    body.telegram-app {
-    background: var(--tg-theme-bg-color, #f8f9fa);
-    color: var(--tg-theme-text-color, #212529);
+    /* ===== GRID MENU ITEM ===== */
+    .menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    color: #2d3748;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 16px;
+    padding: 0.8rem 0.25rem;
+    transition: all 0.25s ease;
+    min-height: 90px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     }
-    body.telegram-app .navbar-custom {
-    background: var(--tg-theme-secondary-bg-color, #667eea);
+    .menu-item i {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    color: #667eea;
+    transition: color 0.2s, transform 0.2s;
     }
-    body.telegram-app .navbar-custom .navbar-brand,
-    body.telegram-app .navbar-custom .nav-link {
-    color: var(--tg-theme-text-color, white);
+    .menu-item span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.2;
     }
-    body.telegram-app .card {
-    background: var(--tg-theme-bg-color, white);
-    color: var(--tg-theme-text-color, #212529);
-    box-shadow: none;
-    border: 1px solid var(--tg-theme-hint-color, #e9ecef);
-    }
-    body.telegram-app .card-header {
-    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
-    border-bottom-color: var(--tg-theme-hint-color, #e9ecef);
-    }
-    body.telegram-app .app-item {
-    background: var(--tg-theme-bg-color, white);
-    color: var(--tg-theme-text-color, #2d3748);
-    box-shadow: none;
-    border: 1px solid var(--tg-theme-hint-color, #e9ecef);
-    }
-    body.telegram-app .app-item:hover {
-    background: var(--tg-theme-button-color, #40a7e3);
-    color: var(--tg-theme-button-text-color, white);
+    .menu-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 25px -8px rgba(102,126,234,0.4);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
     border-color: transparent;
     }
-    body.telegram-app .app-item i {
-    color: var(--tg-theme-text-color, #2d3748);
+    .menu-item:hover i {
+    color: white;
     }
-    body.telegram-app .app-item:hover i {
-    color: var(--tg-theme-button-text-color, white);
+
+    /* ===== DARK MODE ===== */
+    body[data-bs-theme="dark"] .menu-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    body.telegram-app .btn-primary {
-    background: var(--tg-theme-button-color, #40a7e3);
-    color: var(--tg-theme-button-text-color, white);
+    body[data-bs-theme="dark"] .menu-item i {
+    color: #a78bfa;
     }
-    body.telegram-app .footer {
-    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
-    color: var(--tg-theme-hint-color, #6c757d);
+    body[data-bs-theme="dark"] .menu-item:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 15px 30px -8px rgba(102,126,234,0.5);
+    }
+    body[data-bs-theme="dark"] .menu-item:hover i {
+    color: white;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (min-width: 576px) {
+    .menu-item {
+    padding: 1rem 0.5rem;
+    min-height: 100px;
+    }
+    .menu-item i {
+    font-size: 2rem;
+    }
+    .menu-item span {
+    font-size: 0.9rem;
+    }
+    }
+
+    @media (min-width: 768px) {
+    .menu-item {
+    padding: 1.2rem 0.5rem;
+    }
+    .menu-item i {
+    font-size: 2.2rem;
+    }
+    .menu-item span {
+    font-size: 1rem;
+    }
     }
     </style>

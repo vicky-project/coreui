@@ -15,11 +15,9 @@
 
   @stack('styles')
 </head>
-<body class="{{ request()->has('token') ? 'telegram-app' : ''}}">
+<body>
   <!-- Navbar -->
-  @if(!request()->has("token"))
   @include('coreui::partials.app.navbar')
-  @endif
 
   <!-- Toast Container for Flash Messages -->
   @if(session('success') || $errors->any())
@@ -69,83 +67,8 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Telegram WebApp SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
 
   <script>
-    // Terapkan tema Telegram ke CSS variables
-    function applyTelegramTheme() {
-      const tg = window.Telegram?.WebApp;
-      if (tg && tg.themeParams) {
-        const theme = tg.themeParams;
-        document.documentElement.style.setProperty('--tg-theme-bg-color', theme.bg_color || '#ffffff');
-        document.documentElement.style.setProperty('--tg-theme-text-color', theme.text_color || '#000000');
-        document.documentElement.style.setProperty('--tg-theme-hint-color', theme.hint_color || '#999999');
-        document.documentElement.style.setProperty('--tg-theme-link-color', theme.link_color || '#40a7e3');
-        document.documentElement.style.setProperty('--tg-theme-button-color', theme.button_color || '#40a7e3');
-        document.documentElement.style.setProperty('--tg-theme-button-text-color', theme.button_text_color || '#ffffff');
-        document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', theme.secondary_bg_color || '#f0f0f0');
-        document.documentElement.style.setProperty('--tg-theme-section-bg-color', theme.section_bg_color || '#f0f0f0');
-        document.documentElement.style.setProperty('--tg-theme-section-header-text-color', theme.section_header_text_color || '#000000');
-        document.documentElement.style.setProperty('--tg-theme-subtitle-text-color', theme.subtitle_text_color || '#666666');
-        document.documentElement.style.setProperty('--tg-theme-destructive-text-color', theme.destructive_text_color || '#ff3b30');
-        document.documentElement.style.setProperty('--tg-theme-section-separator-color', theme.section_separator_color || '#e9ecef');
-        document.documentElement.style.setProperty('--tg-theme-header-bg-color', theme.header_bg_color || '#ffffff');
-      } else {
-        if (tg.colorScheme === 'dark') {
-          document.documentElement.style.setProperty('--tg-theme-bg-color', '#1f1f1f');
-          document.documentElement.style.setProperty('--tg-theme-text-color', '#ffffff');
-          document.documentElement.style.setProperty('--tg-theme-hint-color', '#aaaaaa');
-          document.documentElement.style.setProperty('--tg-theme-link-color', '#8774e1');
-          document.documentElement.style.setProperty('--tg-theme-button-color', '#8774e1');
-          document.documentElement.style.setProperty('--tg-theme-button-text-color', '#ffffff');
-          document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', '#2f2f2f');
-          document.documentElement.style.setProperty('--tg-theme-section-bg-color', '#2f2f2f');
-          document.documentElement.style.setProperty('--tg-theme-section-header-text-color', '#ffffff');
-          document.documentElement.style.setProperty('--tg-theme-subtitle-text-color', '#cccccc');
-          document.documentElement.style.setProperty('--tg-theme-destructive-text-color', '#ff453a');
-          document.documentElement.style.setProperty('--tg-theme-section-separator-color', '#3a3a3a');
-          document.documentElement.style.setProperty('--tg-theme-header-bg-color', '#1f1f1f');
-        } else {
-          document.documentElement.style.setProperty('--tg-theme-bg-color', '#ffffff');
-          document.documentElement.style.setProperty('--tg-theme-text-color', '#000000');
-          document.documentElement.style.setProperty('--tg-theme-hint-color', '#999999');
-          document.documentElement.style.setProperty('--tg-theme-link-color', '#40a7e3');
-          document.documentElement.style.setProperty('--tg-theme-button-color', '#40a7e3');
-          document.documentElement.style.setProperty('--tg-theme-button-text-color', '#ffffff');
-          document.documentElement.style.setProperty('--tg-theme-secondary-bg-color', '#f0f0f0');
-          document.documentElement.style.setProperty('--tg-theme-section-bg-color', '#f0f0f0');
-          document.documentElement.style.setProperty('--tg-theme-section-header-text-color', '#000000');
-          document.documentElement.style.setProperty('--tg-theme-subtitle-text-color', '#666666');
-          document.documentElement.style.setProperty('--tg-theme-destructive-text-color', '#ff3b30');
-          document.documentElement.style.setProperty('--tg-theme-section-separator-color', '#e9ecef');
-          document.documentElement.style.setProperty('--tg-theme-header-bg-color', '#ffffff');
-        }
-      }
-    }
-
-    // Telegram Mini App detection
-    // Inisialisasi Telegram WebApp
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initData) {
-      tg.requestFullscreen();
-      applyTelegramTheme();
-      tg.onEvent('themeChanged', function() {
-      applyTelegramTheme();
-      });
-      tg.BackButton.isVisible = true;
-      tg.onEvent("backButtonClicked",
-      function () {
-      const urlObj = new URL('{{ config("coreui.home_url") }}', window.location.origin);
-      urlObj.searchParams.set("initData", tg.initData);
-      window.location = urlObj.toString();
-      });
-      tg.BackButton.show();
-      tg.setBottomBarColor(tg.themeParams.bottom_bar_bg_color);
-      tg.expand();
-      tg.ready();
-    }
-
     // Fungsi toast
     function showToast(message, type = 'success') {
       let toastContainer = document.querySelector('.toast-container');
