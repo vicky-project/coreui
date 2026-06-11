@@ -375,6 +375,18 @@ class MenuService
           $menu["items"] = $filteredItems;
           $filtered[$key] = $menu;
         }
+      } elseif (!empty($menu['children'])) {
+        $filteredChildren = [];
+        foreach ($menu['children'] as $child) {
+          if ($this->canAccess($child, $user)) {
+            $filteredChildren[] = $this->filterMenuItemChildren($child, $user);
+          }
+        }
+
+        if (!empty($filteredChildren)) {
+          $menu['children'] = $filteredChildren;
+          $filtered[$key] = $this->filterMenuItemChildren($menu, $user);
+        }
       } elseif ($this->canAccess($menu, $user)) {
         $filtered[$key] = $this->filterMenuItemChildren($menu, $user);
       }
