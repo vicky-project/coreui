@@ -13,9 +13,31 @@
 
   @include('coreui::partials.admin.styles')
 
+  <style>
+    /* Global Loading Overlay */
+    .global-loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(3px);
+      z-index: 10555;
+      /* di atas segalanya */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: all;
+    }
+    .global-loading-overlay .spinner-content {
+      text-align: center;
+    }
+  </style>
+
   @stack('styles')
 </head>
-<body class="{{ session('is_telegram_app') ? 'telegram-app' : '' }}">
+<body>
   <div class="wrapper">
     <!-- Sidebar -->
     @sidebarMenu()
@@ -34,11 +56,91 @@
 
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+  <!-- Global Loading Overlay -->
+  <div class="global-loading-overlay d-none" id="globalLoadingOverlay">
+    <div class="spinner-content">
+      <div class="spinner-border text-primary mb-2" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="fw-semibold mb-0 fs-5">
+        Menyimpan perubahan...
+      </p>
+    </div>
+  </div>
+
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Telegram WebApp SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js?61"></script>
+  <script>
+    (function() {
+    let isSubmitting = false;
 
+    // Tangkap semua submit form dengan method POST
+    document.addEventListener('submit', function(e) {
+    const form = e.target;
+
+    // Hanya proses form dengan method POST
+    if (form.method.toUpperCase() !== 'POST') return;
+
+    // Cegah double submit
+    if (isSubmitting) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+    }
+
+    // Validasi HTML5 client-side
+    if (!form.checkValidity()) {
+    // Jika tidak valid, tampilkan feedback bawaan
+    form.classList.add('was-validated');
+    return;
+    }
+
+    // Tampilkan overlay
+    const overlay = document.getElementById('globalLoadingOverlay');
+    if (overlay) {
+    overlay.classList.remove('d-none');
+    }
+
+    // Nonaktifkan semua tombol submit di form ini
+    const submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
+    submitButtons.forEach(btn => {
+    btn.disabled = true;
+    // Simpan teks asli jika perlu
+    btn.setAttribute('data-original-text', btn.innerHTML);
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Menyimpan...';
+    });
+
+    // Nonaktifkan link Cancel (asumsi punya class 'btn' atau 'cancel-link')
+    const cancelLinks = form.querySelectorAll('a.btn, a[href]:not(.dropdown-toggle):not(.pagination a)');
+    cancelLinks.forEach(link => {
+    link.setAttribute('data-original-href', link.getAttribute('href'));
+    link.setAttribute('href', 'javascript:void(0)');
+    link.classList.add('disabled', 'pe-none');
+    // Hentikan event klik
+    link.addEventListener('click', function preventClick(ev) {
+    ev.preventDefault();
+    }, { once: true });
+    });
+
+    // Tandai sedang submit
+    isSubmitting = true;
+    });
+
+    // Reset state jika halaman dimuat ulang (misal karena validasi server)
+    window.addEventListener('pageshow', function() {
+    isSubmitting = false;
+    const overlay = document.getElementById('globalLoadingOverlay');
+    if (overlay) {
+    overlay.classList.add('d-none');
+    }
+    });
+
+    // Fallback: reset jika tombol kembali ditekan
+    window.addEventListener('beforeunload', function() {
+    isSubmitting = false;
+    });
+    })();
+  </script>
   <script>
     // Toggle sidebar
     document.addEventListener('DOMContentLoaded', function() {
@@ -121,22 +223,6 @@
     content.classList.add('expanded');
     }
     }
-    });
-  </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Set session flag via AJAX if needed (optional)
-    @if(Route::has('telegram.set-session'))
-    fetch('{{ secure_url(route("telegram.set-session")) }}', {
-    method: 'POST',
-    headers: {
-    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-    'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ is_telegram_app: true })
-    });
-    @endif
     });
   </script>
 
